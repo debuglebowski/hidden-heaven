@@ -1,8 +1,6 @@
-#! /usr/bin/env bun
+import { run } from '../run';
+import { findConfig } from './index.config';
 
-import { runFromCli } from '../run';
-import { sourceFolderName } from './index.args';
-
-export function runCli() {
-    runFromCli({ sourceFolderName });
+export async function runCli() {
+    return findConfig().then(run);
 }

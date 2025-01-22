@@ -1,16 +1,13 @@
-import type { __HiddenHeaven, HiddenHeaven } from '../types';
+import type { Internals } from '../types';
 import { findSourceFolders } from './findSourceFolders';
+import { validateConfig } from './validateConfig';
 
-export function run(config: __HiddenHeaven.Config) {
-    const { sourceFolderName = '.config' } = config;
+export async function run(config: Internals.Config) {
+    console.log(config);
 
-    const config__safe = config;
+    await validateConfig(config);
 
-    const sourceFolders = findSourceFolders(config__safe);
-}
+    const sourceFolders = await findSourceFolders(config);
 
-export function runFromCli(config: HiddenHeaven.CliFlags) {
-    const config__safe = config;
-
-    // const sourceFolders = findSourceFolders(config__safe);
+    // console.log(sourceFolders);
 }
