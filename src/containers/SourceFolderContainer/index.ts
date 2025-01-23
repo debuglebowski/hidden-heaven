@@ -16,6 +16,12 @@ export class SourceFolderContainer {
         return { name, absolutePath };
     }
 
+    get targetItems() {
+        return this.sourceFolder.children.map((sourceItem) => {
+            return this.createTargetItem(sourceItem);
+        });
+    }
+
     removeTargetItem(targetItem: HiddenHeaven.TargetItem) {
         return rm(targetItem.absolutePath, { force: true, recursive: true });
     }
@@ -36,12 +42,16 @@ export class SourceFolderContainer {
         execSync(['ln', '-sf', targetItem.sourceItem.absolutePath, targetItem.absolutePath]);
     }
 
-    async sync() {
-        const targetItems = this.sourceFolder.children.map((sourceItem) => {
-            return this.createTargetItem(sourceItem);
+    async clean() {
+        const promises = this.targetItems.map((targetItem) => {
+            return this.removeTargetItem(targetItem);
         });
 
-        const promises = targetItems.map((targetItem) => {
+        await Promise.all(promises);
+    }
+
+    async sync() {
+        const promises = this.targetItems.map((targetItem) => {
             return this.syncTargetItem(targetItem);
         });
 

@@ -12,8 +12,8 @@
         "dev:types": "tsc --watch",
         "--TEST--": "",
         "test": "vitest",
-        "test:fixture:basic": "(cd src.test/fixtures/basic && hidden-heaven)",
-        "test:fixture:named": "(cd src.test/fixtures/named && hidden-heaven)"
+        "test:fixture:basic": "(cd src.test/fixtures/basic && npm run hide)",
+        "test:fixture:named": "(cd src.test/fixtures/named && npm run hide)"
     },
     "tsup": {
         "entry": [
@@ -25,12 +25,14 @@
         "clean": true
     },
     "devDependencies": {
-        "tsup": "^8.3.5",
+        "@types/minimist": "^1.2.5",
         "prettier": "^3.4.2",
-        "vitest": "^3.0.2",
-        "typescript": "^5.0.0"
+        "tsup": "^8.3.5",
+        "typescript": "^5.0.0",
+        "vitest": "^3.0.2"
     },
     "dependencies": {
-        "fast-glob": "*"
+        "fast-glob": "*",
+        "minimist": "^1.2.8"
     }
 }

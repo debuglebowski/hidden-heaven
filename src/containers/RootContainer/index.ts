@@ -28,4 +28,12 @@ export class RootContainer {
 
         await Promise.all(syncPromises);
     }
+
+    async clean() {
+        const cleanPromises = this.sourceFolderContainers.map((sourceFolderContainer) => {
+            return sourceFolderContainer.clean();
+        });
+
+        await Promise.all(cleanPromises);
+    }
 }

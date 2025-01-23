@@ -3,9 +3,9 @@ import { join } from 'node:path';
 
 import { findUp } from '../utils';
 import { readJsonFile } from '../utils';
-import { cwd, sourceFolderName } from './index.config.args';
+import { cwd, sourceFolderName } from './index.context.args';
 
-async function findConfig__package() {
+async function findContext__package() {
     return findUp('package.json', cwd)
         .then(readJsonFile)
         .then((pkg) => {
@@ -13,7 +13,7 @@ async function findConfig__package() {
         });
 }
 
-async function findConfig__files() {
+async function findContext__files() {
     const childreNames = await readdir(sourceFolderName);
 
     const configFileName = childreNames.find((childName) => {
@@ -30,8 +30,8 @@ async function findConfig__files() {
 }
 
 export async function findContext() {
-    const config = await findConfig__package().then((data) => {
-        return data || findConfig__files();
+    const config = await findContext__package().then((data) => {
+        return data || findContext__files();
     });
 
     return { ...config, sourceFolderName, cwd };
