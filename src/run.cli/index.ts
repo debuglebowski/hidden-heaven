@@ -1,6 +1,13 @@
+import { RootContainer } from '../containers';
 import { run } from '../run';
-import { findConfig } from './index.config';
+import { findContext } from './index.config';
 
 export async function runCli() {
-    return findConfig().then(run);
+    return findContext()
+        .then((context) => {
+            return RootContainer.fromContext(context);
+        })
+        .then((rootContainer) => {
+            return run(rootContainer);
+        });
 }

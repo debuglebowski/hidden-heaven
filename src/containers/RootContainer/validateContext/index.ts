@@ -1,9 +1,9 @@
 import { stat } from 'node:fs/promises';
 
-import type { Internals } from '../../types';
+import type { Internals } from '../../../types';
 
-export async function validateConfig(config: Internals.Config) {
-    const { sourceFolderName, gitignore, vscode, map, onFile } = config;
+export async function validateContext(config: Internals.Context) {
+    const { sourceFolderName, gitignore, vscode, map, onItem: onFile } = config;
 
     if (gitignore) {
         if (typeof gitignore !== 'boolean') {
@@ -24,7 +24,7 @@ export async function validateConfig(config: Internals.Config) {
     }
 
     if (onFile) {
-        if (typeof config.onFile !== 'function') {
+        if (typeof config.onItem !== 'function') {
             throw new Error('onFile must be a function');
         }
     }

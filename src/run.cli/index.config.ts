@@ -29,7 +29,7 @@ async function findConfig__files() {
     return readJsonFile(configFilePath);
 }
 
-export async function findConfig() {
+export async function findContext() {
     const config = await findConfig__package().then((data) => {
         return data || findConfig__files();
     });

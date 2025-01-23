@@ -1,11 +1,5 @@
-import type { Internals } from '../types';
-import { findSourceFolders } from './findSourceFolders';
-import { validateConfig } from './validateConfig';
+import { RootContainer } from '../containers';
 
-export async function run(config: Internals.Config) {
-    await validateConfig(config);
-
-    const sourceFolders = await findSourceFolders(config);
-
-    console.log(sourceFolders);
+export async function run(rootContainer: RootContainer) {
+    await rootContainer.syncAll();
 }

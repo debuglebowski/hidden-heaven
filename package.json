@@ -7,9 +7,13 @@
     },
     "scripts": {
         "build": "tsup-node --dts",
+        "--DEV--": "",
         "dev": "npm run build -- --watch",
         "dev:types": "tsc --watch",
-        "test": "vitest"
+        "--TEST--": "",
+        "test": "vitest",
+        "test:fixture:basic": "(cd src.test/fixtures/basic && hidden-heaven)",
+        "test:fixture:named": "(cd src.test/fixtures/named && hidden-heaven)"
     },
     "tsup": {
         "entry": [
