@@ -8,8 +8,6 @@ export async function runCli() {
         return RootContainer.fromContext(context);
     });
 
-    console.log({ clean });
-
     if (clean) {
         return rootContainer.clean();
     }

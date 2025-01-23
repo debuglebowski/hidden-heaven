@@ -31,23 +31,10 @@ export namespace HiddenHeaven {
      * The content of the hidden-heaven.json config file
      */
     export interface InputConfig {
-        format?: {
-            /**
-             * What JS runtime command should we use to execute the formatters?
-             * npm? pnpm? yarn? bun?
-             */
-            runtime?: string;
-
-            /**
-             * Whether to run prettier on the file
-             */
-            prettier?: boolean;
-
-            /**
-             * Whether to run eslint on the file
-             */
-            eslint?: boolean;
-        };
+        /**
+         * Can only be used in package.json - otherwise we are not able to find it
+         */
+        sourceFolderName?: string;
 
         /**
          * If we should write the target files to .gitignore
@@ -63,6 +50,26 @@ export namespace HiddenHeaven {
          * A map of source item names -> target item names
          */
         map?: Record<string, string>;
+
+        /**
+         * The format config
+         */
+        format?: {
+            /**
+             * What JS runtime command should we use to execute the formatters? npm? pnpm? yarn? bun?
+             */
+            runtime?: string;
+
+            /**
+             * Whether to run prettier on the file
+             */
+            prettier?: boolean;
+
+            /**
+             * Whether to run eslint on the file
+             */
+            eslint?: boolean;
+        };
 
         /**
          * A callback for each source item that is found in the source folder.
