@@ -10,10 +10,12 @@ export class SourceFolderContainer {
     ) {}
 
     get targetFolder(): HiddenHeaven.TargetFolder {
-        const absolutePath = dirname(this.sourceFolder.absolutePath);
+        const { sourceFolder } = this;
+
+        const absolutePath = dirname(sourceFolder.absolutePath);
         const name = basename(absolutePath);
 
-        return { name, absolutePath };
+        return { name, absolutePath, sourceFolder };
     }
 
     get targetItems() {

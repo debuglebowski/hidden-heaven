@@ -1,8 +1,7 @@
 import { readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 
-import { findUp } from '../utils';
-import { readJsonFile } from '../utils';
+import { findUp, readJson } from '../utils';
 import { cwd, sourceFolderName__default } from './index.context.args';
 
 type Dictionary = Record<string, any>;
@@ -11,7 +10,7 @@ type Dictionary__Optional = Record<string, any> | undefined;
 async function findContext__package() {
     return findUp('package.json', cwd)
         .then((filePath) => {
-            return readJsonFile<Dictionary>(filePath);
+            return readJson<Dictionary>(filePath);
         })
         .then((pkg) => {
             return pkg['hiddenHeaven'] || pkg['hidden-heaven'] || pkg['hide'];
@@ -31,7 +30,7 @@ async function findContext__files() {
     if (configFileName) {
         const configFilePath = join(sourceFolderName__default, configFileName);
 
-        return readJsonFile<Dictionary>(configFilePath);
+        return readJson<Dictionary>(configFilePath);
     }
 
     return undefined;

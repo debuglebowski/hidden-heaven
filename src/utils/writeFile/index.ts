@@ -7,6 +7,7 @@ interface Config {
 
     filePath: string;
     content: any;
+
     shouldFormat: boolean;
 }
 
