@@ -13,7 +13,7 @@
             "path": "src.test/fixtures/fixture.config",
         },
         {
-            "path": "src.test/fixtures/fixture.display",
+            "path": "src.test/fixtures/fixture.demo",
         },
     ],
     "settings": {},
