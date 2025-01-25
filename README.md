@@ -2,16 +2,7 @@
 
 ## Have you ever dreamed about this?
 
-<div style="display: flex; gap: 20px;">
-    <div>
-        <h3>Before</h3>
-        <img src="docs/images/before.png" alt="Before" />
-    </div>
-    <div>
-        <h3>After</h3>
-        <img src="docs/images/after.png" alt="After" />
-    </div>
-</div>
+![Before](docs/images/display.png)
 
 # How?
 
