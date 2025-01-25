@@ -1,12 +1,6 @@
 # TODO
 
-- Add files to vscode
-- Add files to gitignore
-- JS config
-
-- Test
-    - Custom hooks
-    - Mappings
+- Docs
 
 # Limitations
 

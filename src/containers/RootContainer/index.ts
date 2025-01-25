@@ -36,20 +36,15 @@ export class RootContainer {
     };
 
     async triggerCallbacks() {
-        const { context, sourceFolderContainers, flatTargetItems } = this;
+        const { context, flatTargetItems } = this;
 
-        for (const sourceFolderContainer of sourceFolderContainers) {
-            for (const targetItem of sourceFolderContainer.targetItems) {
-                const { sourceItem, targetFolder } = targetItem;
+        for (const targetItem of flatTargetItems) {
+            const { targetFolder, sourceItem } = targetItem;
 
-                await this.context.onItem?.({ targetItem, targetFolder, sourceItem, context });
-            }
+            await this.context.onItem?.({ targetItem, targetFolder, sourceItem, context });
         }
 
-        await this.context.onItems?.({
-            targetItems: flatTargetItems,
-            context,
-        });
+        await this.context.onItems?.({ targetItems: flatTargetItems, context });
     }
 
     async syncAll() {

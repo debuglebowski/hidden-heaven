@@ -2,10 +2,14 @@ import { readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 
 import { findUp, readJson } from '../utils';
-import { cwd, sourceFolderName__default } from './index.context.args';
+import { cwd, sourceFolderName__flag } from './index.context.args';
 
 type Dictionary = Record<string, any>;
 type Dictionary__Optional = Record<string, any> | undefined;
+
+const configFileNames = ['hiddenHeaven', 'hidden-heaven', 'hide', 'hh'];
+const configFileNames__json = configFileNames.map((name) => `${name}.json`);
+const configFileNames__js = configFileNames.map((name) => `${name}.js`);
 
 async function findContext__package() {
     return findUp('package.json', cwd)
@@ -20,15 +24,13 @@ async function findContext__package() {
         });
 }
 
-async function findContext__files() {
-    const childreNames = await readdir(sourceFolderName__default);
-
-    const configFileName = childreNames.find((childName) => {
-        return ['hiddenHeaven.json', 'hidden-heaven.json', 'hide.json', 'hh.json'].includes(childName);
+async function findContext__files__json(childrenNames: string[]) {
+    const configFileName__json = childrenNames.find((childName) => {
+        return configFileNames__json.includes(childName);
     });
 
-    if (configFileName) {
-        const configFilePath = join(sourceFolderName__default, configFileName);
+    if (configFileName__json) {
+        const configFilePath = join(sourceFolderName__flag, configFileName__json);
 
         return readJson<Dictionary>(configFilePath);
     }
@@ -36,12 +38,34 @@ async function findContext__files() {
     return undefined;
 }
 
+function findContext__files__js(childrenNames: string[]) {
+    const configFileName__js = childrenNames.find((childName) => {
+        return configFileNames__js.includes(childName);
+    });
+
+    if (configFileName__js) {
+        const configFilePath = join(process.cwd(), sourceFolderName__flag, configFileName__js);
+
+        return require(configFilePath)();
+    }
+
+    return undefined;
+}
+
+async function findContext__files() {
+    const childrenNames = await readdir(sourceFolderName__flag);
+
+    return findContext__files__json(childrenNames).then((ctx) => {
+        return ctx || findContext__files__js(childrenNames);
+    });
+}
+
 export async function findContext() {
     const context = await findContext__package().then((ctx) => {
         return ctx || findContext__files();
     });
 
-    const sourceFolderName = context?.sourceFolderName || sourceFolderName__default;
+    const sourceFolderName = context?.sourceFolderName || sourceFolderName__flag;
 
     return { ...context, sourceFolderName, cwd };
 }

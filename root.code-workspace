@@ -9,6 +9,12 @@
         {
             "path": "src.test/fixtures/fixture.named",
         },
+        {
+            "path": "src.test/fixtures/fixture.config",
+        },
+        {
+            "path": "src.test/fixtures/fixture.display",
+        },
     ],
     "settings": {},
 }

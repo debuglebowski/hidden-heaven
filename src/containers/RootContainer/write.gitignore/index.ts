@@ -13,7 +13,7 @@ export async function write__gitignore(this: RootContainer) {
     const content = await fse.readFile(ignoreFilePath, 'utf8').then(resetContent);
     const content__lines = content.trim().split('\n');
 
-    const itemRelativePaths__lines = flatTargetItems.map((item) => item.relativePath);
+    const itemRelativePaths__lines = flatTargetItems.map((item) => '/' + item.relativePath);
 
     const content__new__lines = [
         ...content__lines,
