@@ -10,6 +10,7 @@ export namespace HiddenHeaven {
         name: string;
 
         absolutePath: string;
+        relativePath: string; // Relative to cwd
     }
 
     /**

@@ -1,4 +1,5 @@
 import type { Internals } from '../../types';
+import { getWorkspaceMeta } from '../../utils';
 import { SourceFolderContainer } from '../SourceFolderContainer';
 import { findSourceFolders } from './findSourceFolders';
 import { validateContext } from './validateContext';
@@ -52,8 +53,10 @@ export class RootContainer {
     }
 
     async syncAll() {
+        const { isVsCodeProject, hasGitignore } = await getWorkspaceMeta(this.context);
+
         const { context, sourceFolderContainers } = this;
-        const { gitignore, vscode } = context;
+        const { gitignore = hasGitignore, vscode = isVsCodeProject } = context;
 
         const syncPromises = sourceFolderContainers.map((sourceFolderContainer) => {
             return sourceFolderContainer.sync();

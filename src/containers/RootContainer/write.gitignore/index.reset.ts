@@ -1,13 +1,21 @@
 import { delimiter } from '../../../utils';
 
-export function resetContent(content: string) {
+function createFilteredLines(content: string) {
     const content__lines = content.split('\n');
 
     const index__start = content__lines.findIndex((line) => line.includes(delimiter.gitignore.start));
     const index__end = content__lines.findIndex((line) => line.includes(delimiter.gitignore.end));
 
-    const content__new__lines = content__lines.slice(index__start + 1, index__end);
-    const content__new = content__new__lines.join('\n');
+    if (index__start === -1 || index__end === -1) {
+        return content__lines;
+    }
 
-    return content__new;
+    const content__lines__start = content__lines.slice(0, index__start);
+    const content__lines__end = content__lines.slice(index__end + 1);
+
+    return [...content__lines__start, ...content__lines__end];
+}
+
+export function resetContent(content: string) {
+    return createFilteredLines(content).join('\n');
 }

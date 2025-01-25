@@ -13,7 +13,10 @@ function createFilteredLines(settings: Settings) {
         return settings__string__lines;
     }
 
-    return settings__string__lines.slice(index__start + 1, index__end);
+    const settings__string__lines__start = settings__string__lines.slice(0, index__start);
+    const settings__string__lines__end = settings__string__lines.slice(index__end + 1);
+
+    return [...settings__string__lines__start, ...settings__string__lines__end];
 }
 
 export function resetSettings(settings: Settings) {

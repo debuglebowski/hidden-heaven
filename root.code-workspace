@@ -1,0 +1,14 @@
+{
+    "folders": [
+        {
+            "path": ".",
+        },
+        {
+            "path": "src.test/fixtures/fixture.basic",
+        },
+        {
+            "path": "src.test/fixtures/fixture.named",
+        },
+    ],
+    "settings": {},
+}

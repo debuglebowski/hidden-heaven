@@ -2,8 +2,5 @@
     "name": "test.root",
     "scripts": {
         "hide": "hidden-heaven --sourceFolderName .files"
-    },
-    "hide": {
-        "gitignore": true
     }
 }

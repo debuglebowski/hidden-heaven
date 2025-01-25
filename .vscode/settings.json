@@ -1,0 +1,5 @@
+{
+    "files.exclude": {
+        "root.code-workspace": true
+    }
+}

@@ -1,7 +1,7 @@
 import { rm } from 'node:fs/promises';
 import { dirname, basename } from 'node:path';
 import type { HiddenHeaven, Internals } from '../../types';
-import { execSync } from '../../utils';
+import { createRelativePath, execSync } from '../../utils';
 
 export class SourceFolderContainer {
     constructor(
@@ -13,9 +13,11 @@ export class SourceFolderContainer {
         const { sourceFolder } = this;
 
         const absolutePath = dirname(sourceFolder.absolutePath);
+        const relativePath = createRelativePath(this.context, absolutePath);
+
         const name = basename(absolutePath);
 
-        return { name, absolutePath, sourceFolder };
+        return { name, absolutePath, relativePath, sourceFolder };
     }
 
     get targetItems() {
@@ -33,9 +35,11 @@ export class SourceFolderContainer {
         const { map } = this.context;
 
         const name = map?.[sourceItem.name] ?? sourceItem.name;
-        const absolutePath = `${targetFolder.absolutePath}/${name}`;
 
-        return { name, absolutePath, sourceItem, targetFolder };
+        const absolutePath = `${targetFolder.absolutePath}/${name}`;
+        const relativePath = createRelativePath(this.context, absolutePath);
+
+        return { name, absolutePath, relativePath, sourceItem, targetFolder };
     }
 
     async syncTargetItem(targetItem: HiddenHeaven.TargetItem) {

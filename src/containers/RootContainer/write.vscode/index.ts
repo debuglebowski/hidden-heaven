@@ -1,6 +1,5 @@
 import type { RootContainer } from '..';
-import { join } from 'node:path';
-import { delimiter, fse, writeFile } from '../../../utils';
+import { delimiter, fse, writeFile, createPaths } from '../../../utils';
 import { resetSettings } from './index.reset';
 
 const excludeKey = 'files.exclude';
@@ -8,10 +7,7 @@ const excludeKey = 'files.exclude';
 export async function write__vscode(this: RootContainer) {
     const { context, flatTargetItems } = this;
 
-    const itemNames = flatTargetItems.map((item) => item.name);
-    const itemNames__unique = [...new Set(itemNames)];
-
-    const settingsFilePath = join(context.cwd, '.vscode', 'settings.json');
+    const settingsFilePath = createPaths(context).vscode.settings;
 
     await fse.ensureFile(settingsFilePath);
 
@@ -23,8 +19,8 @@ export async function write__vscode(this: RootContainer) {
     settings[excludeKey] ||= {};
     settings[excludeKey][delimiter.json.start] = true;
 
-    itemNames__unique.forEach((itemName) => {
-        settings[excludeKey][`**/${itemName}`] = true;
+    flatTargetItems.forEach((item) => {
+        settings[excludeKey][item.relativePath] = true;
     });
 
     settings[excludeKey][delimiter.json.end] = true;
