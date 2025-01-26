@@ -1,7 +1,8 @@
 import { join } from 'node:path';
 
 import { findUp, fse, readJson } from '../utils';
-import { cwd, sourceFolderName__flag } from './index.context.args';
+import { cwd, initMode, isClean, isReset, sourceFolderName__flag } from './index.context.args';
+import type { HiddenHeaven, Internals } from '../types';
 
 type Dictionary = Record<string, any>;
 type Dictionary__Optional = Record<string, any> | undefined;
@@ -51,7 +52,7 @@ function findContext__files__js(childrenNames: string[]) {
     return undefined;
 }
 
-async function findContext__files() {
+async function findContext__files(): Promise<HiddenHeaven.InputConfig> {
     const sourceFolderExists = await fse.exists(sourceFolderName__flag);
 
     if (!sourceFolderExists) {
@@ -65,12 +66,22 @@ async function findContext__files() {
     });
 }
 
-export async function findContext() {
+export async function findContext(): Promise<Internals.Context> {
     const context = await findContext__package().then((ctx) => {
         return ctx || findContext__files();
     });
 
     const sourceFolderName = context?.sourceFolderName || sourceFolderName__flag;
 
-    return { ...context, sourceFolderName, cwd };
+    return {
+        ...context,
+
+        cwd,
+        sourceFolderName,
+
+        initMode,
+
+        isClean,
+        isReset,
+    };
 }

@@ -151,5 +151,16 @@ export namespace HiddenHeaven {
          * Defaults to true.
          */
         initMode?: true | 'all';
+
+        /**
+         * If you want to remove all target files
+         */
+        isClean: boolean;
+
+        /**
+         * If you want to move all source files to the target folder.
+         * This reverses the init command.
+         */
+        isReset?: boolean;
     }
 }

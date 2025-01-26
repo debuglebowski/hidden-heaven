@@ -1,11 +1,11 @@
 import type { Internals } from '../../types';
 import { fse } from '../fse';
 
-export async function validateContext(config: Internals.Context) {
-    const { initMode, sourceFolderName, gitignore, vscode, map, onItem } = config;
+export async function validateContext(context: Internals.Context) {
+    const { initMode, sourceFolderName, gitignore, vscode, map, onItem } = context;
 
     if (initMode) {
-        if (initMode !== 'all' || typeof initMode !== 'boolean') {
+        if (initMode !== 'all' && typeof initMode !== 'boolean') {
             throw new Error('initMode must be a boolean or "all"');
         }
     }
@@ -42,5 +42,5 @@ export async function validateContext(config: Internals.Context) {
         }
     }
 
-    return config;
+    return context;
 }

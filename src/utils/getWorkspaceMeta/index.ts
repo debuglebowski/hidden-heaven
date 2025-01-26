@@ -3,11 +3,15 @@ import type { Internals } from '../../types';
 import { createPaths } from '../paths';
 
 export async function getWorkspaceMeta(context: Internals.Context) {
+    const { sourceFolderName } = context;
+
     const paths = createPaths(context);
 
-    const hasGitignore = await fse.exists(paths.gitignore);
+    return {
+        hasSourceFolder: await fse.exists(sourceFolderName),
 
-    const isVsCodeProject = await fse.exists(paths.vscode.settings);
+        hasGitignore: await fse.exists(paths.gitignore),
 
-    return { isVsCodeProject, hasGitignore };
+        isVsCodeProject: await fse.exists(paths.vscode.settings),
+    };
 }

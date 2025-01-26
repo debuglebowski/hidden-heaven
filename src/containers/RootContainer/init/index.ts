@@ -33,16 +33,20 @@ async function initPackage(this: RootContainer, packagePath: string) {
     const { context } = this;
     const { cwd, sourceFolderName } = context;
 
-    const children = await getSelectedFiles.call(this, packagePath);
+    const children__raw = await getSelectedFiles.call(this, packagePath);
 
-    const children__enhanced = children.map((child) => {
-        const from = join(cwd, child.name);
-        const to = join(cwd, sourceFolderName);
+    const children = children__raw
+        .filter((child) => {
+            return child.name !== sourceFolderName;
+        })
+        .map((child) => {
+            const from = join(cwd, child.name);
+            const to = join(cwd, sourceFolderName);
 
-        return { from, to };
-    });
+            return { from, to };
+        });
 
-    const childrenPromises = children__enhanced.map((child) => {
+    const childrenPromises = children.map((child) => {
         return fse.move(child.from, child.to);
     });
 
