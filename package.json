@@ -12,10 +12,10 @@
         "dev:types": "tsc --watch",
         "--TEST--": "",
         "test": "vitest",
-        "test:fixture:basic": "(cd src.test/fixtures/basic && npm run test)",
-        "test:fixture:named": "(cd src.test/fixtures/named && npm run test)",
-        "test:fixture:config": "(cd src.test/fixtures/config && npm run test)",
-        "test:fixture:init": "(cd src.test/fixtures/init && npm run test)"
+        "test:fixture:basic": "(cd src.test/fixtures/fixture.basic && npm run test)",
+        "test:fixture:named": "(cd src.test/fixtures/fixture.named && npm run test)",
+        "test:fixture:config": "(cd src.test/fixtures/fixture.config && npm run test)",
+        "test:fixture:init": "(cd src.test/fixtures/fixture.init && npm run test)"
     },
     "tsup": {
         "entry": [
