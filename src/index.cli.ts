@@ -2,6 +2,10 @@
 
 import { runCli } from './run.cli';
 
-void runCli().catch((error: Error) => {
-    console.error(error.stack);
-});
+void runCli()
+    .then(() => {
+        console.log('Done!');
+    })
+    .catch((error: Error) => {
+        console.error(error.stack);
+    });

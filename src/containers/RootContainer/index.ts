@@ -4,7 +4,7 @@ import { findSourceFolders } from '../../utils/findSourceFolders';
 import { triggerCallbacks } from './triggerCallbacks';
 import { write__gitignore } from './write.gitignore';
 import { write__vscode } from './write.vscode';
-import { syncAll } from './syncAll';
+import { sync } from './sync';
 import { init } from './init';
 import { clean } from './clean';
 import { validateContext } from '../../utils';
@@ -40,7 +40,7 @@ export class RootContainer {
 
     triggerCallbacks = triggerCallbacks.bind(this);
 
-    syncAll = syncAll.bind(this);
+    sync = sync.bind(this);
 
     init = init.bind(this);
 
