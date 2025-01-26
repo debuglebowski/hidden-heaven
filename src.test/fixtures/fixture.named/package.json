@@ -1,6 +1,6 @@
 {
     "name": "test.root",
     "scripts": {
-        "hide": "hidden-heaven --sourceFolderName .files"
+        "test": "hidden-heaven --sourceFolderName .files"
     }
 }

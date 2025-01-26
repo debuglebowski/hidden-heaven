@@ -1,6 +1,6 @@
 {
     "name": "test.root",
     "scripts": {
-        "hide": "hidden-heaven"
+        "test": "hidden-heaven"
     }
 }
