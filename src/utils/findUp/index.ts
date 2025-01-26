@@ -1,8 +1,8 @@
-import { readdir } from 'node:fs/promises';
 import { dirname, join } from 'path';
+import { fse } from '../fse';
 
 export async function findUp(name: string, cwd = process.cwd()) {
-    const children = await readdir(cwd, { withFileTypes: true });
+    const children = await fse.readdir(cwd, { withFileTypes: true });
 
     for (const child of children) {
         if (child.name === name) {

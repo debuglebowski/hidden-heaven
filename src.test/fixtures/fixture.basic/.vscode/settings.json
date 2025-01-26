@@ -1,10 +1,10 @@
 {
-  "files.exclude": {
-    "---[hidden-heaven-start]---": true,
-    ".nxihfq": true,
-    "mfoqw.json": true,
-    "nested/folder/.ndomqw": true,
-    "nested/folder/jfoqwjo.json": true,
-    "---[hidden-heaven-stop]---": true
-  }
+    "files.exclude": {
+        "---hidden-heaven-start---": true,
+        ".nxihfq": true,
+        "mfoqw.json": true,
+        "nested/folder/.ndomqw": true,
+        "nested/folder/jfoqwjo.json": true,
+        "---hidden-heaven-stop---": true
+    }
 }

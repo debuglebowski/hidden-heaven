@@ -1,15 +1,15 @@
 import { glob } from 'fast-glob';
 import { join, basename } from 'node:path';
-import { readdir } from 'node:fs/promises';
 
 import type { HiddenHeaven, Internals } from '../../types';
-import { createRelativePath } from '..';
+import { fse } from '../fse';
+import { createRelativePath } from '../createRelativePath';
 
 async function readSourceFolder(
     context: Internals.Context,
     absoluteSourceFolderPath: string,
 ): Promise<HiddenHeaven.SourceFolder> {
-    const children = await readdir(absoluteSourceFolderPath, { withFileTypes: true });
+    const children = await fse.readdir(absoluteSourceFolderPath, { withFileTypes: true });
 
     return {
         name: basename(absoluteSourceFolderPath),

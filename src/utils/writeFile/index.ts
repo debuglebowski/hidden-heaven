@@ -1,6 +1,6 @@
-import { writeFile as __writeFile } from 'node:fs/promises';
 import { formatFile } from '../formatFile';
 import type { Internals } from '../../types';
+import { fse } from '../fse';
 
 interface Config {
     context: Internals.Context;
@@ -14,7 +14,7 @@ interface Config {
 export async function writeFile(config: Config) {
     const { filePath, content, shouldFormat } = config;
 
-    await __writeFile(filePath, content, { flag: 'w', encoding: 'utf8' });
+    await fse.writeFile(filePath, content, { flag: 'w', encoding: 'utf8' });
 
     if (shouldFormat) {
         await formatFile(config);

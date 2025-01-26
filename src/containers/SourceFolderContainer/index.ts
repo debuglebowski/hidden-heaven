@@ -1,7 +1,6 @@
-import { rm } from 'node:fs/promises';
 import { dirname, basename } from 'node:path';
 import type { HiddenHeaven, Internals } from '../../types';
-import { createRelativePath, execSync } from '../../utils';
+import { createRelativePath, execSync, fse } from '../../utils';
 
 export class SourceFolderContainer {
     constructor(
@@ -27,7 +26,7 @@ export class SourceFolderContainer {
     }
 
     removeTargetItem(targetItem: HiddenHeaven.TargetItem) {
-        return rm(targetItem.absolutePath, { force: true, recursive: true });
+        return fse.remove(targetItem.absolutePath);
     }
 
     createTargetItem(sourceItem: HiddenHeaven.SourceItem): HiddenHeaven.TargetItem {

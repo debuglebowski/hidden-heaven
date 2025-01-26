@@ -1,7 +1,6 @@
-import { readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 
-import { findUp, readJson } from '../utils';
+import { findUp, fse, readJson } from '../utils';
 import { cwd, sourceFolderName__flag } from './index.context.args';
 
 type Dictionary = Record<string, any>;
@@ -53,7 +52,13 @@ function findContext__files__js(childrenNames: string[]) {
 }
 
 async function findContext__files() {
-    const childrenNames = await readdir(sourceFolderName__flag);
+    const sourceFolderExists = await fse.exists(sourceFolderName__flag);
+
+    if (!sourceFolderExists) {
+        return {};
+    }
+
+    const childrenNames = await fse.readdir(sourceFolderName__flag);
 
     return findContext__files__json(childrenNames).then((ctx) => {
         return ctx || findContext__files__js(childrenNames);

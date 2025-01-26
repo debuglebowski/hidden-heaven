@@ -1,5 +1,5 @@
-import { stat } from 'node:fs/promises';
 import type { Internals } from '../../types';
+import { fse } from '../fse';
 
 export async function validateContext(config: Internals.Context) {
     const { initMode, sourceFolderName, gitignore, vscode, map, onItem } = config;
@@ -34,10 +34,12 @@ export async function validateContext(config: Internals.Context) {
         }
     }
 
-    const sourceFolderExists = await stat(sourceFolderName);
+    if (!initMode) {
+        const sourceFolderExists = await fse.exists(sourceFolderName);
 
-    if (!sourceFolderExists) {
-        throw new Error(`Source folder ${sourceFolderName} is required`);
+        if (!sourceFolderExists) {
+            throw new Error(`Source folder ${sourceFolderName} is required`);
+        }
     }
 
     return config;
