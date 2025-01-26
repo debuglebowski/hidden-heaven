@@ -16,3 +16,8 @@ export * from './paths';
 export * from './createRelativePath';
 
 export * from './getWorkspaceMeta';
+
+export * from './findSourceFolders';
+export * from './findPackagePaths';
+
+export * from './validateContext';

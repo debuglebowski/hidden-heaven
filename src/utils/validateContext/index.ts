@@ -1,9 +1,14 @@
 import { stat } from 'node:fs/promises';
-
-import type { Internals } from '../../../types';
+import type { Internals } from '../../types';
 
 export async function validateContext(config: Internals.Context) {
-    const { sourceFolderName, gitignore, vscode, map, onItem: onFile } = config;
+    const { initMode, sourceFolderName, gitignore, vscode, map, onItem } = config;
+
+    if (initMode) {
+        if (initMode !== 'all' || typeof initMode !== 'boolean') {
+            throw new Error('initMode must be a boolean or "all"');
+        }
+    }
 
     if (gitignore) {
         if (typeof gitignore !== 'boolean') {
@@ -12,19 +17,19 @@ export async function validateContext(config: Internals.Context) {
     }
 
     if (vscode) {
-        if (typeof config.vscode !== 'boolean') {
+        if (typeof vscode !== 'boolean') {
             throw new Error('vscode must be a boolean');
         }
     }
 
     if (map) {
-        if (typeof config.map !== 'object') {
+        if (typeof map !== 'object') {
             throw new Error('map must be an object');
         }
     }
 
-    if (onFile) {
-        if (typeof config.onItem !== 'function') {
+    if (onItem) {
+        if (typeof onItem !== 'function') {
             throw new Error('onFile must be a function');
         }
     }

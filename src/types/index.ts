@@ -47,15 +47,6 @@ export namespace HiddenHeaven {
     }
 
     /**
-     * How we should write the file
-     * - root - write to the root folder
-     * - package - write to the package path
-     * - false - don't write file
-     * - true - same as root
-     */
-    export type WriteFileMode = boolean | 'root' | 'package';
-
-    /**
      * The config for the onItem callback
      */
     export interface OnItemConfig {
@@ -90,13 +81,13 @@ export namespace HiddenHeaven {
          * If we should write the target files to .gitignore
          * Defaults to true
          */
-        gitignore?: WriteFileMode;
+        gitignore?: boolean;
 
         /**
          * If we should hide the target files in vscode
          * Defaults to true
          */
-        vscode?: WriteFileMode;
+        vscode?: boolean;
 
         /**
          * A map of source item names -> target item names
@@ -151,5 +142,14 @@ export namespace HiddenHeaven {
          * Defaults to .config
          */
         sourceFolderName?: string;
+
+        /**
+         * Which files we should include in the init
+         * - true - opinionated
+         * - all - all files
+         *
+         * Defaults to true.
+         */
+        initMode?: true | 'all';
     }
 }

@@ -1,10 +1,13 @@
 import type { Internals } from '../../types';
-import { getWorkspaceMeta } from '../../utils';
 import { SourceFolderContainer } from '../SourceFolderContainer';
-import { findSourceFolders } from './findSourceFolders';
-import { validateContext } from './validateContext';
+import { findSourceFolders } from '../../utils/findSourceFolders';
+import { triggerCallbacks } from './triggerCallbacks';
 import { write__gitignore } from './write.gitignore';
 import { write__vscode } from './write.vscode';
+import { syncAll } from './syncAll';
+import { init } from './init';
+import { clean } from './clean';
+import { validateContext } from '../../utils';
 
 export class RootContainer {
     static async fromContext(context: Internals.Context) {
@@ -35,46 +38,11 @@ export class RootContainer {
         gitignore: write__gitignore.bind(this),
     };
 
-    async triggerCallbacks() {
-        const { context, flatTargetItems } = this;
+    triggerCallbacks = triggerCallbacks.bind(this);
 
-        for (const targetItem of flatTargetItems) {
-            const { targetFolder, sourceItem } = targetItem;
+    syncAll = syncAll.bind(this);
 
-            await this.context.onItem?.({ targetItem, targetFolder, sourceItem, context });
-        }
+    init = init.bind(this);
 
-        await this.context.onItems?.({ targetItems: flatTargetItems, context });
-    }
-
-    async syncAll() {
-        const { isVsCodeProject, hasGitignore } = await getWorkspaceMeta(this.context);
-
-        const { context, sourceFolderContainers } = this;
-        const { gitignore = hasGitignore, vscode = isVsCodeProject } = context;
-
-        const syncPromises = sourceFolderContainers.map((sourceFolderContainer) => {
-            return sourceFolderContainer.sync();
-        });
-
-        if (gitignore) {
-            await this.write.gitignore();
-        }
-
-        if (vscode) {
-            await this.write.vscode();
-        }
-
-        await this.triggerCallbacks();
-
-        await Promise.all(syncPromises);
-    }
-
-    async clean() {
-        const cleanPromises = this.sourceFolderContainers.map((sourceFolderContainer) => {
-            return sourceFolderContainer.clean();
-        });
-
-        await Promise.all(cleanPromises);
-    }
+    clean = clean.bind(this);
 }

@@ -2,8 +2,8 @@ import { glob } from 'fast-glob';
 import { join, basename } from 'node:path';
 import { readdir } from 'node:fs/promises';
 
-import type { HiddenHeaven, Internals } from '../../../types';
-import { createRelativePath } from '../../../utils';
+import type { HiddenHeaven, Internals } from '../../types';
+import { createRelativePath } from '..';
 
 async function readSourceFolder(
     context: Internals.Context,
