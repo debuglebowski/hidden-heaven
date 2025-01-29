@@ -1,5 +1,5 @@
 import { fse } from '../fse';
-import type { Internals } from '../../types';
+import type { Internals } from '~/types';
 import { createPaths } from '../paths';
 
 export async function getWorkspaceMeta(context: Internals.Context) {

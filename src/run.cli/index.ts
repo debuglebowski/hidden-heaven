@@ -1,4 +1,4 @@
-import { RootContainer } from '../containers';
+import { RootContainer } from '~/containers';
 import { run } from '../run';
 import { findContext } from './index.context';
 import { isClean, initMode } from './index.context.args';

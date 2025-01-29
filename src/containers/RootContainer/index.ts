@@ -1,13 +1,13 @@
-import type { Internals } from '../../types';
-import { SourceFolderContainer } from '../SourceFolderContainer';
-import { findSourceFolders } from '../../utils/findSourceFolders';
+import type { Internals } from '~/types';
+import { SourceFolderContainer } from '~/containers';
+import { findSourceFolders } from '~/utils/findSourceFolders';
 import { triggerCallbacks } from './triggerCallbacks';
 import { write__gitignore } from './write.gitignore';
 import { write__vscode } from './write.vscode';
 import { sync } from './sync';
 import { init } from './init';
 import { clean } from './clean';
-import { validateContext } from '../../utils';
+import { validateContext } from '~/utils';
 
 export class RootContainer {
     static async fromContext(context: Internals.Context) {

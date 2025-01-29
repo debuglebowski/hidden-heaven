@@ -43,7 +43,10 @@ You can already now do a bunch of customizations to the logic, but this is not d
 # TODO
 
 - "init" command that move all files to .config and then syncs.
+- Add certain folders on init: "everything starting with a dot". Maybe add another init mode for this?
+- Add more excludes on init ".git", ".DS_STORE"
 - Better docs
+- Add linting
 
 # Limitations
 

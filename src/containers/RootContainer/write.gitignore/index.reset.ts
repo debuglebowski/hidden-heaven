@@ -1,4 +1,4 @@
-import { delimiter } from '../../../utils';
+import { delimiter } from '~/utils';
 
 function createFilteredLines(content: string) {
     const content__lines = content.split('\n');

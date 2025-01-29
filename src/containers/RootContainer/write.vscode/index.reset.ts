@@ -1,4 +1,4 @@
-import { delimiter } from '../../../utils';
+import { delimiter } from '~/utils';
 
 type Settings = Record<string, any>;
 

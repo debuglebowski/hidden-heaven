@@ -1,8 +1,8 @@
 import { join } from 'node:path';
 
-import { findUp, fse, readJson } from '../utils';
+import { findUp, fse, readJson } from '~/utils';
 import { cwd, initMode, isClean, isReset, sourceFolderName__flag } from './index.context.args';
-import type { HiddenHeaven, Internals } from '../types';
+import type { HiddenHeaven, Internals } from '~/types';
 
 type Dictionary = Record<string, any>;
 type Dictionary__Optional = Record<string, any> | undefined;

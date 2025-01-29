@@ -1,5 +1,5 @@
 import type { RootContainer } from '..';
-import { delimiter, fse, writeFile, createPaths } from '../../../utils';
+import { delimiter, fse, writeFile, createPaths } from '~/utils';
 import { resetSettings } from './index.reset';
 
 const excludeKey = 'files.exclude';

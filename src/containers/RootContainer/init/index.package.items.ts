@@ -1,36 +1,41 @@
-import type { RootContainer } from '..';
-import { fse } from '../../../utils';
-
-const ignoredFiles = {
-    exact: ['package.json'],
-    contains: ['.lock', '-lock'],
-    regex: [],
-};
+import type { RootContainer } from '~/containers';
+import { fse } from '~/utils';
+import { ignoredItems__global } from './index.package.items.filter';
+import { ignoredItems__package } from './index.package.items.filter';
+import { isValidItem } from './index.package.items.filter';
 
 async function getModeChildren(this: RootContainer, packagePath: string) {
     const { context } = this;
     const { initMode } = context;
 
-    const rootChildren = await fse.readdir(packagePath, { withFileTypes: true });
+    console.log(context);
+    console.log(packagePath);
+
+    const children = await fse.readdir(packagePath, { withFileTypes: true }).then((children) => {
+        console.log(children.map((child) => child.name));
+
+        return children.filter((child) => {
+            const isSourceFolder = child.name === context.sourceFolderName;
+
+            const isValid = isValidItem(ignoredItems__global, child.name);
+
+            return !isSourceFolder && isValid;
+        });
+    });
+
+    console.log('---');
+    console.log(children.map((child) => child.name));
 
     if (initMode === 'all') {
-        return rootChildren;
+        return children;
     }
 
-    return rootChildren.filter((child) => {
-        const childName = child.name;
-
-        const exactIgnored = ignoredFiles.exact.includes(childName);
-        const containsIgnored = ignoredFiles.contains.some((pattern) => childName.includes(pattern));
-        const regexIgnored = ignoredFiles.regex.some((regex) => childName.match(regex));
-
-        return !exactIgnored && !containsIgnored && !regexIgnored;
+    return children.filter((child) => {
+        return isValidItem(ignoredItems__package, child.name);
     });
 }
 
-export async function getSelectedItems(this: RootContainer, packagePath: string) {
-    const { context } = this;
-
+export async function getItems(this: RootContainer, packagePath: string) {
     const children = await getModeChildren.call(this, packagePath);
 
     return children.filter((child) => {

@@ -1,6 +1,6 @@
 import { dirname, basename } from 'node:path';
-import type { HiddenHeaven, Internals } from '../../types';
-import { createRelativePath, execSync, fse } from '../../utils';
+import type { HiddenHeaven, Internals } from '~/types';
+import { createRelativePath, execSync, fse } from '~/utils';
 
 export class SourceFolderContainer {
     constructor(

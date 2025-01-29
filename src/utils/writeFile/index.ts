@@ -1,5 +1,5 @@
 import { formatFile } from '../formatFile';
-import type { Internals } from '../../types';
+import type { Internals } from '~/types';
 import { fse } from '../fse';
 
 interface Config {

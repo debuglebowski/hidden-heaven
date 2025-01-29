@@ -1,6 +1,6 @@
 import type { RootContainer } from '..';
 import { initPackage } from './index.package';
-import { findPackagePaths, fse } from '../../../utils';
+import { findPackagePaths, fse } from '~/utils';
 import { writeConfig } from './index.config';
 
 export async function init(this: RootContainer) {

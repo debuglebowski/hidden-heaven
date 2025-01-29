@@ -1,4 +1,4 @@
-import type { Internals } from '../../types';
+import type { Internals } from '~/types';
 import { tryExecBin } from '../tryExecBin';
 
 interface Config {

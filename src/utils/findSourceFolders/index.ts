@@ -1,7 +1,7 @@
 import { glob } from 'fast-glob';
 import { join, basename } from 'node:path';
 
-import type { HiddenHeaven, Internals } from '../../types';
+import type { HiddenHeaven, Internals } from '~/types';
 import { fse } from '../fse';
 import { createRelativePath } from '../createRelativePath';
 

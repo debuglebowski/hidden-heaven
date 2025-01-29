@@ -1,6 +1,6 @@
 import { join } from 'node:path';
 import type { RootContainer } from '..';
-import { writeFile } from '../../../utils';
+import { writeFile } from '~/utils';
 
 const config__default = {
     gitignore: true,

@@ -1,4 +1,4 @@
-import type { Internals } from '../../types';
+import type { Internals } from '~/types';
 import { fse } from '../fse';
 
 export async function validateContext(context: Internals.Context) {
