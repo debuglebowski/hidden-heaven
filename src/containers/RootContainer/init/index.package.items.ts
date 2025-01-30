@@ -1,18 +1,18 @@
 import type { RootContainer } from '~/containers';
 import { fse } from '~/utils';
-import { createIgnoredItems__global, createIgnoredItems__package } from './index.package.items.filter';
+import { createRulesConfig__all, createRulesConfig__opinionated } from './index.package.items.filter';
 import { isValidItem } from './index.package.items.filter';
 
 async function getAllChildren(this: RootContainer, packagePath: string) {
     const { context } = this;
 
-    const ignoredItems__global = createIgnoredItems__global(context);
+    const rulesConfig = createRulesConfig__all(context);
 
     return fse.readdir(packagePath, { withFileTypes: true }).then((children) => {
         return children.filter((child) => {
             const isSourceFolder = child.name === context.sourceFolderName;
 
-            const isValid = isValidItem(ignoredItems__global, child.name);
+            const isValid = isValidItem(rulesConfig, child);
 
             return !isSourceFolder && isValid;
         });
@@ -29,10 +29,10 @@ async function getChildrenByMode(this: RootContainer, packagePath: string) {
         return children;
     }
 
-    const ignoredItems__package = createIgnoredItems__package(context);
+    const rulesConfig = createRulesConfig__opinionated(context);
 
     return children.filter((child) => {
-        return isValidItem(ignoredItems__package, child.name);
+        return isValidItem(rulesConfig, child);
     });
 }
 

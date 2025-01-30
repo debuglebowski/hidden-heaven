@@ -1,4 +1,5 @@
 import type { Internals } from '~/types';
+import type { fse } from '~/utils';
 
 interface Rules {
     allow?: {
@@ -14,36 +15,56 @@ interface Rules {
     };
 }
 
-export function createIgnoredItems__global(context: Internals.Context): Rules {
+interface RulesConfig {
+    any?: Rules;
+    file?: Rules;
+    folder?: Rules;
+}
+
+export function createRulesConfig__all(context: Internals.Context): RulesConfig {
     return {
-        allow: {
-            regex: [/^\.*/],
+        any: {
+            ignore: {
+                exact: ['.git', '.DS_Store', context.sourceFolderName],
+            },
         },
-        ignore: {
-            exact: ['.git', '.DS_Store', 'node_modules', context.sourceFolderName],
+        folder: {
+            allow: {
+                regex: [/^\./],
+            },
         },
     };
 }
 
-export function createIgnoredItems__package(context: Internals.Context): Rules {
+export function createRulesConfig__opinionated(context: Internals.Context): RulesConfig {
     return {
-        ignore: {
-            exact: ['package.json'],
-            contains: ['.lock', '-lock'],
+        file: {
+            ignore: {
+                exact: ['package.json'],
+                contains: ['.lock', '-lock'],
+            },
         },
     };
 }
 
-export function isValidItem(ignoreConfig: Rules, itemName: string): boolean {
-    const isAllowed__exact = ignoreConfig.allow?.exact?.includes(itemName) ?? true;
-    const isAllowed__contains = ignoreConfig.allow?.contains?.some((pattern) => itemName.includes(pattern)) ?? true;
-    const isAllowed__regex = ignoreConfig.allow?.regex?.some((regex) => itemName.match(regex)) ?? true;
+function validateItemWithRules(item: fse.Dirent, rules: Rules = {}): boolean {
+    const isAllowed__exact = rules.allow?.exact?.includes(item.name) ?? true;
+    const isAllowed__contains = rules.allow?.contains?.some((pattern) => item.name.includes(pattern)) ?? true;
+    const isAllowed__regex = rules.allow?.regex?.some((regex) => item.name.match(regex)) ?? true;
     const isAllowed = isAllowed__exact && isAllowed__contains && isAllowed__regex;
 
-    const isIgnored__exact = ignoreConfig.ignore?.exact?.includes(itemName) ?? false;
-    const isIgnored__contains = ignoreConfig.ignore?.contains?.some((pattern) => itemName.includes(pattern)) ?? false;
-    const isIgnored__regex = ignoreConfig.ignore?.regex?.some((regex) => itemName.match(regex)) ?? false;
+    const isIgnored__exact = rules.ignore?.exact?.includes(item.name) ?? false;
+    const isIgnored__contains = rules.ignore?.contains?.some((pattern) => item.name.includes(pattern)) ?? false;
+    const isIgnored__regex = rules.ignore?.regex?.some((regex) => item.name.match(regex)) ?? false;
     const isIgnored = isIgnored__exact || isIgnored__contains || isIgnored__regex;
 
     return isAllowed && !isIgnored;
+}
+
+export function isValidItem(config: RulesConfig, item: fse.Dirent): boolean {
+    const isValid__any = validateItemWithRules(item, config.any);
+    const isValid__file = item.isFile() ? validateItemWithRules(item, config.file) : true;
+    const isValid__folder = item.isDirectory() ? validateItemWithRules(item, config.folder) : true;
+
+    return isValid__any && isValid__file && isValid__folder;
 }
