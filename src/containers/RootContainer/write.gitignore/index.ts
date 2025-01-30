@@ -1,12 +1,11 @@
-import { join } from 'node:path';
 import type { RootContainer } from '..';
-import { delimiter, fse } from '~/utils';
+import { createPaths, delimiter, fse } from '~/utils';
 import { resetContent } from './index.reset';
 
 export async function write__gitignore(this: RootContainer) {
     const { context, flatTargetItems } = this;
 
-    const ignoreFilePath = join(context.cwd, '.gitignore');
+    const ignoreFilePath = createPaths(context).gitignore;
 
     await fse.ensureFile(ignoreFilePath);
 

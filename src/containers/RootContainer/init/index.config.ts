@@ -1,6 +1,5 @@
-import { join } from 'node:path';
 import type { RootContainer } from '..';
-import { ensureFile, fse, writeFile } from '~/utils';
+import { createPaths, ensureFile, fse, writeFile } from '~/utils';
 
 const config__default = {
     gitignore: true,
@@ -9,11 +8,12 @@ const config__default = {
 
 async function writeConfig(this: RootContainer) {
     const { context } = this;
-    const { cwd, sourceFolderName } = context;
+
+    const paths = createPaths(context);
 
     await writeFile({
         context,
-        filePath: join(cwd, sourceFolderName, '.hide.json'),
+        filePath: paths.defaultConfigFile,
         content: JSON.stringify(config__default, null, 2),
         shouldFormat: true,
     });
@@ -21,12 +21,13 @@ async function writeConfig(this: RootContainer) {
 
 export async function initFiles(this: RootContainer) {
     const { context } = this;
-    const { cwd, sourceFolderName } = context;
 
-    await fse.ensureDir(join(cwd, sourceFolderName));
+    const paths = createPaths(context);
+
+    await fse.ensureDir(paths.sourceFolder);
 
     await writeConfig.call(this);
 
-    await ensureFile({ filePath: join(cwd, '.gitignore'), content: '' });
-    await ensureFile({ filePath: join(cwd, '.vscode.settings.json'), content: '{}' });
+    await ensureFile({ filePath: paths.gitignore, content: '' });
+    await ensureFile({ filePath: paths.vscode.settings, content: '{}' });
 }

@@ -1,7 +1,7 @@
 import { dirname, join } from 'path';
 import { fse } from '../fse';
 
-export async function findUp(name: string, cwd = process.cwd()) {
+export async function findUp(name: string, cwd: string) {
     const children = await fse.readdir(cwd, { withFileTypes: true });
 
     for (const child of children) {
