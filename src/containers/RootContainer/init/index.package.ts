@@ -11,6 +11,8 @@ export async function initPackage(this: RootContainer, packagePath: string) {
 
     const children = await getChildren.call(this, packagePath);
 
+    // console.log(children.map((child) => child.name));
+
     const items = children.map((child) => {
         const from = join(packagePath, child.name);
         const to = join(packagePath, sourceFolderName, child.name);

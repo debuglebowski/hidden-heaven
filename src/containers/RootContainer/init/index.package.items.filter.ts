@@ -43,7 +43,7 @@ export function isValidItem(ignoreConfig: Rules, itemName: string): boolean {
     const isIgnored__exact = ignoreConfig.ignore?.exact?.includes(itemName) ?? false;
     const isIgnored__contains = ignoreConfig.ignore?.contains?.some((pattern) => itemName.includes(pattern)) ?? false;
     const isIgnored__regex = ignoreConfig.ignore?.regex?.some((regex) => itemName.match(regex)) ?? false;
-    const isIgnored = isIgnored__exact && isIgnored__contains && isIgnored__regex;
+    const isIgnored = isIgnored__exact || isIgnored__contains || isIgnored__regex;
 
     return isAllowed && !isIgnored;
 }
