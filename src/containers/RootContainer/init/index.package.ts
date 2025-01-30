@@ -1,7 +1,7 @@
 import { join } from 'node:path';
 import type { RootContainer } from '..';
 import { fse } from '~/utils';
-import { getItems } from './index.package.items';
+import { getChildren } from './index.package.items';
 
 export async function initPackage(this: RootContainer, packagePath: string) {
     const { context } = this;
@@ -9,16 +9,18 @@ export async function initPackage(this: RootContainer, packagePath: string) {
 
     await fse.ensureDir(sourceFolderName);
 
-    const items__raw = await getItems.call(this, packagePath);
+    const children = await getChildren.call(this, packagePath);
 
-    const items = items__raw.map((child) => {
+    console.log(children.map((child) => child.name));
+
+    const items = children.map((child) => {
         const from = join(packagePath, child.name);
         const to = join(packagePath, sourceFolderName, child.name);
 
         return { from, to };
     });
 
-    for (const child of items) {
-        // await fse.move(child.from, child.to);
+    for (const item of items) {
+        await fse.move(item.from, item.to);
     }
 }

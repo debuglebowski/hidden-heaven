@@ -1,19 +1,14 @@
 import type { RootContainer } from '~/containers';
 import { fse } from '~/utils';
-import { ignoredItems__global } from './index.package.items.filter';
-import { ignoredItems__package } from './index.package.items.filter';
+import { createIgnoredItems__global, createIgnoredItems__package } from './index.package.items.filter';
 import { isValidItem } from './index.package.items.filter';
 
-async function getModeChildren(this: RootContainer, packagePath: string) {
+async function getAllChildren(this: RootContainer, packagePath: string) {
     const { context } = this;
-    const { initMode } = context;
 
-    console.log(context);
-    console.log(packagePath);
+    const ignoredItems__global = createIgnoredItems__global(context);
 
-    const children = await fse.readdir(packagePath, { withFileTypes: true }).then((children) => {
-        console.log(children.map((child) => child.name));
-
+    return fse.readdir(packagePath, { withFileTypes: true }).then((children) => {
         return children.filter((child) => {
             const isSourceFolder = child.name === context.sourceFolderName;
 
@@ -22,23 +17,25 @@ async function getModeChildren(this: RootContainer, packagePath: string) {
             return !isSourceFolder && isValid;
         });
     });
+}
 
-    console.log('---');
-    console.log(children.map((child) => child.name));
+async function getChildrenByMode(this: RootContainer, packagePath: string) {
+    const { context } = this;
+    const { initMode } = context;
+
+    const children = await getAllChildren.call(this, packagePath);
 
     if (initMode === 'all') {
         return children;
     }
+
+    const ignoredItems__package = createIgnoredItems__package(context);
 
     return children.filter((child) => {
         return isValidItem(ignoredItems__package, child.name);
     });
 }
 
-export async function getItems(this: RootContainer, packagePath: string) {
-    const children = await getModeChildren.call(this, packagePath);
-
-    return children.filter((child) => {
-        return child.isFile();
-    });
+export async function getChildren(this: RootContainer, packagePath: string) {
+    return getChildrenByMode.call(this, packagePath);
 }

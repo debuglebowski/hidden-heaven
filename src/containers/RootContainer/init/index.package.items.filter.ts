@@ -1,35 +1,49 @@
 import type { Internals } from '~/types';
 
-interface IgnoreConfig {
-    exact: string[];
-    contains: string[];
-    regex: RegExp[];
-}
+interface Rules {
+    allow?: {
+        exact?: string[];
+        contains?: string[];
+        regex?: RegExp[];
+    };
 
-export function createIgnoredItems__global(context: Internals.Context) {
-    return {
-        exact: ['.git', '.DS_Store', context.sourceFolderName],
-        contains: ['node_modules'],
-        regex: [],
+    ignore?: {
+        exact?: string[];
+        contains?: string[];
+        regex?: RegExp[];
     };
 }
 
-export const ignoredItems__global: IgnoreConfig = {
-    exact: ['.git', '.DS_Store'],
-    contains: ['node_modules'],
-    regex: [],
-};
+export function createIgnoredItems__global(context: Internals.Context): Rules {
+    return {
+        allow: {
+            regex: [/^\.*/],
+        },
+        ignore: {
+            exact: ['.git', '.DS_Store', 'node_modules', context.sourceFolderName],
+        },
+    };
+}
 
-export const ignoredItems__package: IgnoreConfig = {
-    exact: ['package.json'],
-    contains: ['.lock', '-lock'],
-    regex: [],
-};
+export function createIgnoredItems__package(context: Internals.Context): Rules {
+    return {
+        ignore: {
+            exact: ['package.json'],
+            contains: ['.lock', '-lock'],
+        },
+    };
+}
 
-export function isValidItem(ignoreConfig: IgnoreConfig, itemName: string) {
-    const exactIgnored = ignoreConfig.exact.includes(itemName);
-    const containsIgnored = ignoreConfig.contains.some((pattern) => itemName.includes(pattern));
-    const regexIgnored = ignoreConfig.regex.some((regex) => itemName.match(regex));
+export function isValidItem(ignoreConfig: Rules, itemName: string): boolean {
+    const isAllowed__exact = ignoreConfig.allow?.exact?.includes(itemName) ?? true;
+    const isAllowed__contains = ignoreConfig.allow?.contains?.some((pattern) => itemName.includes(pattern)) ?? true;
+    const isAllowed__regex = ignoreConfig.allow?.regex?.some((regex) => itemName.match(regex)) ?? true;
+    const isAllowed = isAllowed__exact && isAllowed__contains && isAllowed__regex;
 
-    return !exactIgnored && !containsIgnored && !regexIgnored;
+    const isIgnored__exact = ignoreConfig.ignore?.exact?.includes(itemName) ?? false;
+    const isIgnored__contains = ignoreConfig.ignore?.contains?.some((pattern) => itemName.includes(pattern)) ?? false;
+    const isIgnored__regex = ignoreConfig.ignore?.regex?.some((regex) => itemName.match(regex)) ?? false;
+    const isIgnored = isIgnored__exact && isIgnored__contains && isIgnored__regex;
+
+    return isAllowed && !isIgnored;
 }
