@@ -21,6 +21,6 @@ export async function initPackage(this: RootContainer, packagePath: string) {
     });
 
     for (const item of items) {
-        await fse.move(item.from, item.to);
+        await fse.move(item.from, item.to, { overwrite: true });
     }
 }

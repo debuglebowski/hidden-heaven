@@ -18,5 +18,5 @@ export async function init(this: RootContainer) {
 
     await Promise.all(promises);
 
-    // await this.sync();
+    await this.sync();
 }

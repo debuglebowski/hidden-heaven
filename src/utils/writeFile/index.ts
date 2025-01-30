@@ -14,7 +14,8 @@ interface Config {
 export async function writeFile(config: Config) {
     const { filePath, content, shouldFormat } = config;
 
-    await fse.writeFile(filePath, content, { flag: 'w', encoding: 'utf8' });
+    await fse.ensureFile(filePath);
+    await fse.writeFile(filePath, content);
 
     if (shouldFormat) {
         await formatFile(config);
