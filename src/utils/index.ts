@@ -7,6 +7,7 @@ export * from './findUp';
 export * from './readJson';
 
 export * from './writeFile';
+export * from './ensureFile';
 export * from './formatFile';
 
 export * from './delimiters';
@@ -21,3 +22,5 @@ export * from './findSourceFolders';
 export * from './findPackagePaths';
 
 export * from './validateContext';
+
+export * from './initContext';

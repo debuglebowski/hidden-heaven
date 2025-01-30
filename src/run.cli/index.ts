@@ -1,12 +1,13 @@
 import { RootContainer } from '~/containers';
 import { run } from '../run';
-import { findContext } from './index.context';
-import { isClean, initMode } from './index.context.args';
+import { initContext } from '../utils';
 
 export async function runCli() {
-    const rootContainer = await findContext().then((context) => {
+    const rootContainer = await initContext().then((context) => {
         return RootContainer.fromContext(context);
     });
+
+    const { isClean, initMode } = rootContainer.context;
 
     if (isClean) {
         return rootContainer.clean();

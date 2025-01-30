@@ -7,7 +7,7 @@ import { write__vscode } from './write.vscode';
 import { sync } from './sync';
 import { init } from './init';
 import { clean } from './clean';
-import { validateContext } from '~/utils';
+import { initContext, validateContext } from '~/utils';
 
 export class RootContainer {
     static async fromContext(context: Internals.Context) {
@@ -20,6 +20,12 @@ export class RootContainer {
         });
 
         return new RootContainer(context, sourceFolderContainers);
+    }
+
+    static async init() {
+        const context = await initContext();
+
+        return RootContainer.fromContext(context);
     }
 
     private constructor(

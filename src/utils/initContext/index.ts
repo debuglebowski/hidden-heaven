@@ -1,8 +1,10 @@
 import { join } from 'node:path';
 
-import { findUp, fse, readJson } from '~/utils';
-import { cwd, initMode, isClean, isReset, sourceFolderName__flag } from './index.context.args';
+import { cwd, initMode, isClean, isReset, sourceFolderName__flag } from './index.args';
 import type { HiddenHeaven, Internals } from '~/types';
+import { findUp } from '../findUp';
+import { readJson } from '../readJson';
+import { fse } from '../fse';
 
 type Dictionary = Record<string, any>;
 type Dictionary__Optional = Record<string, any> | undefined;
@@ -66,7 +68,7 @@ async function findContext__files(): Promise<HiddenHeaven.InputConfig> {
     });
 }
 
-export async function findContext(): Promise<Internals.Context> {
+export async function initContext(): Promise<Internals.Context> {
     const context = await findContext__package().then((ctx) => {
         return ctx || findContext__files();
     });

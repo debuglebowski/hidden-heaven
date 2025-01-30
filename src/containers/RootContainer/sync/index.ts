@@ -2,10 +2,15 @@ import type { RootContainer } from '..';
 import { getWorkspaceMeta } from '~/utils';
 
 export async function sync(this: RootContainer) {
-    const { isVsCodeProject, hasGitignore } = await getWorkspaceMeta(this.context);
-
     const { context, sourceFolderContainers } = this;
-    const { gitignore = hasGitignore, vscode = isVsCodeProject } = context;
+    const { initMode } = context;
+
+    const { isVsCodeProject, hasGitignore } = await getWorkspaceMeta(context);
+
+    const gitignore__default = hasGitignore || !!initMode;
+    const vscode__default = isVsCodeProject || !!initMode;
+
+    const { gitignore = gitignore__default, vscode = vscode__default } = context;
 
     const syncPromises = sourceFolderContainers.map((sourceFolderContainer) => {
         return sourceFolderContainer.sync();

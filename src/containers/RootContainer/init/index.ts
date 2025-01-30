@@ -1,22 +1,29 @@
-import type { RootContainer } from '..';
+import { RootContainer } from '..';
+import { initFiles } from './index.config';
 import { initPackage } from './index.package';
-import { findPackagePaths, fse } from '~/utils';
-import { writeConfig } from './index.config';
+import { execSync, findPackagePaths, fse } from '~/utils';
 
 export async function init(this: RootContainer) {
     const { context } = this;
 
-    await writeConfig.call(this);
+    await initFiles.call(this);
 
     const packagePaths = await findPackagePaths(context);
 
     await fse.ensureDir(context.sourceFolderName);
 
-    const promises = packagePaths.map((packagePath) => {
+    const initPromises = packagePaths.map((packagePath) => {
         return initPackage.call(this, packagePath);
     });
 
-    await Promise.all(promises);
+    await Promise.all(initPromises);
 
-    // await this.sync();
+    execSync(['git', 'add', '.']);
+
+    /**
+     * This is in order to get a fresh take on the context - with the new file structure.
+     */
+    await RootContainer.init().then((root) => {
+        // return root.sync();
+    });
 }
