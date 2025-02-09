@@ -20,7 +20,7 @@ export class SourceFolderContainer {
     }
 
     get targetItems() {
-        return this.sourceFolder.children.map((sourceItem) => {
+        return this.sourceFolder.items.map((sourceItem) => {
             return this.createTargetItem(sourceItem);
         });
     }
@@ -61,5 +61,15 @@ export class SourceFolderContainer {
         });
 
         await Promise.all(promises);
+    }
+
+    async reset() {
+        await this.clean();
+
+        for (const targetItem of this.targetItems) {
+            await fse.move(targetItem.absolutePath, targetItem.sourceItem.absolutePath);
+        }
+
+        await fse.remove(this.sourceFolder.absolutePath);
     }
 }

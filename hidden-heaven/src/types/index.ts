@@ -27,7 +27,7 @@ export namespace HiddenHeaven {
      * Any folder that contains files we want to symlink
      */
     export interface SourceFolder extends Item {
-        children: SourceItem[];
+        items: SourceItem[];
     }
 
     /**

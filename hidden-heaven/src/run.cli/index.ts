@@ -7,10 +7,14 @@ export async function runCli() {
         return RootContainer.fromContext(context);
     });
 
-    const { isClean, initMode } = rootContainer.context;
+    const { isClean, isReset, initMode } = rootContainer.context;
 
     if (isClean) {
         return rootContainer.clean();
+    }
+
+    if (isReset) {
+        return rootContainer.reset();
     }
 
     if (initMode) {

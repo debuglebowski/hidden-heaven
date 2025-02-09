@@ -8,6 +8,7 @@ import { sync } from './sync';
 import { init } from './init';
 import { clean } from './clean';
 import { initContext, validateContext } from '~/utils';
+import { reset } from './reset';
 
 export class RootContainer {
     static async fromContext(context: Internals.Context) {
@@ -49,6 +50,8 @@ export class RootContainer {
     sync = sync.bind(this);
 
     init = init.bind(this);
+
+    reset = reset.bind(this);
 
     clean = clean.bind(this);
 }

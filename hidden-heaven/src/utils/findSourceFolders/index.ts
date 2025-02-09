@@ -17,7 +17,7 @@ async function readSourceFolder(
         absolutePath: absoluteSourceFolderPath,
         relativePath: createRelativePath(context, absoluteSourceFolderPath),
 
-        children: children.map((child) => {
+        items: children.map((child) => {
             const absoluteSourceItemPath = join(absoluteSourceFolderPath, child.name);
 
             return {

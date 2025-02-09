@@ -25,7 +25,8 @@ export function createRulesConfig__all(context: Internals.Context): RulesConfig 
     return {
         any: {
             ignore: {
-                exact: ['.git', '.DS_Store', context.sourceFolderName],
+                exact: ['.DS_Store', context.sourceFolderName],
+                contains: ['.git'],
             },
         },
         folder: {
@@ -38,7 +39,7 @@ export function createRulesConfig__all(context: Internals.Context): RulesConfig 
 
 export function createRulesConfig__opinionated(context: Internals.Context): RulesConfig {
     return {
-        file: {
+        any: {
             ignore: {
                 exact: ['package.json'],
                 contains: ['.lock', '-lock'],
