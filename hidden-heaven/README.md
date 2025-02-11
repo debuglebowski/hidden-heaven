@@ -42,14 +42,18 @@ You can already now do a bunch of customizations to the logic, but this is not d
 
 # TODO
 
+- Reverse the link direction
+- Add different ways of determining included files
+    - Regex object
+    - JS-function (in config-file)
 - "init" command that move all files to .config and then syncs.
-- Better docs
-- Add linting
 - Automatic tests
     - hide
     - clean
     - reset
     - init
+- Better docs
+- Add linting
 
 # Limitations
 
