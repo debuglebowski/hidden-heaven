@@ -1,8 +1,8 @@
-import type { Internals } from '~/types';
+import type { Context } from '~/types';
 import { tryExecBin } from '../tryExecBin';
 
 interface Config {
-    context: Internals.Context;
+    context: Context;
 
     filePath: string;
 }

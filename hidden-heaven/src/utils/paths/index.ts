@@ -1,18 +1,18 @@
 import { join } from 'node:path';
-import type { Internals } from '~/types';
+import type { Context } from '~/types';
 
-export function createPaths(context: Internals.Context) {
-    const { cwd, sourceFolderName } = context;
+export function createPaths(context: Context) {
+    const { cwd, linkFolderName } = context;
+
+    const linkFolder = join(cwd, linkFolderName);
 
     return {
-        defaultConfigFile: join(cwd, sourceFolderName, '.hide.json'),
+        linkFolder,
 
-        sourceFolder: join(cwd, sourceFolderName),
+        defaultConfigFile: join(linkFolder, '.hide.json'),
 
-        vscode: {
-            settings: join(cwd, '.vscode', 'settings.json'),
-        },
+        vscodeSettingsFile: join(cwd, '.vscode', 'settings.json'),
 
-        gitignore: join(cwd, '.gitignore'),
+        gitignoreFile: join(cwd, '.gitignore'),
     };
 }

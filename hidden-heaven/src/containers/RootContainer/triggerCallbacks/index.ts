@@ -1,13 +1,13 @@
 import type { RootContainer } from '..';
 
 export async function triggerCallbacks(this: RootContainer) {
-    const { context, flatTargetItems } = this;
+    const { context, flatLinkItems } = this;
 
-    for (const targetItem of flatTargetItems) {
-        const { targetFolder, sourceItem } = targetItem;
+    for (const linkItem of flatLinkItems) {
+        const { parent: packageLinkFolder, sourceItem } = linkItem;
 
-        await this.context.onItem?.({ targetItem, targetFolder, sourceItem, context });
+        await this.context.onItem?.({ linkItem, linkItemParent: packageLinkFolder, sourceItem, context });
     }
 
-    await this.context.onItems?.({ targetItems: flatTargetItems, context });
+    await this.context.onItems?.({ linkItems: flatLinkItems, context });
 }

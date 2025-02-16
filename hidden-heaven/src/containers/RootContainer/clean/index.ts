@@ -1,7 +1,7 @@
 import type { RootContainer } from '..';
 
 export async function clean(this: RootContainer) {
-    const cleanPromises = this.sourceFolderContainers.map((sourceFolderContainer) => {
+    const cleanPromises = this.packageContainers.map((sourceFolderContainer) => {
         return sourceFolderContainer.clean();
     });
 

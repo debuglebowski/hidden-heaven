@@ -3,9 +3,9 @@ import { createPaths, delimiter, fse } from '~/utils';
 import { resetContent } from './index.reset';
 
 export async function write__gitignore(this: RootContainer) {
-    const { context, flatTargetItems } = this;
+    const { context, flatLinkItems: flatTargetItems } = this;
 
-    const ignoreFilePath = createPaths(context).gitignore;
+    const ignoreFilePath = createPaths(context).gitignoreFile;
 
     await fse.ensureFile(ignoreFilePath);
 

@@ -1,7 +1,7 @@
 import { join } from 'node:path';
 
-import { cwd, initMode, isClean, isReset, sourceFolderName__flag } from './index.args';
-import type { HiddenHeaven, Internals } from '~/types';
+import { cwd, initMode, isClean, isReset, linkFolderName__flag } from './index.args';
+import type { HiddenHeaven, Context } from '~/types';
 import { findUp } from '../findUp';
 import { readJson } from '../readJson';
 import { fse } from '../fse';
@@ -32,7 +32,7 @@ async function findContext__files__json(childrenNames: string[]) {
     });
 
     if (configFileName__json) {
-        const configFilePath = join(sourceFolderName__flag, configFileName__json);
+        const configFilePath = join(linkFolderName__flag, configFileName__json);
 
         return readJson<Dictionary>(configFilePath);
     }
@@ -46,7 +46,7 @@ function findContext__files__js(childrenNames: string[]) {
     });
 
     if (configFileName__js) {
-        const configFilePath = join(process.cwd(), sourceFolderName__flag, configFileName__js);
+        const configFilePath = join(process.cwd(), linkFolderName__flag, configFileName__js);
 
         return require(configFilePath)();
     }
@@ -55,31 +55,31 @@ function findContext__files__js(childrenNames: string[]) {
 }
 
 async function findContext__files(): Promise<HiddenHeaven.InputConfig> {
-    const sourceFolderExists = await fse.exists(sourceFolderName__flag);
+    const sourceFolderExists = await fse.exists(linkFolderName__flag);
 
     if (!sourceFolderExists) {
         return {};
     }
 
-    const childrenNames = await fse.readdir(sourceFolderName__flag);
+    const childrenNames = await fse.readdir(linkFolderName__flag);
 
     return findContext__files__json(childrenNames).then((ctx) => {
         return ctx || findContext__files__js(childrenNames);
     });
 }
 
-export async function initContext(): Promise<Internals.Context> {
+export async function initContext(): Promise<Context> {
     const context = await findContext__package().then((ctx) => {
         return ctx || findContext__files();
     });
 
-    const sourceFolderName = context?.sourceFolderName || sourceFolderName__flag;
+    const linkFolderName = context?.linkFolderName || linkFolderName__flag;
 
     return {
         ...context,
 
         cwd,
-        sourceFolderName,
+        linkFolderName,
 
         initMode,
 

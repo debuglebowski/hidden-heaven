@@ -1,9 +1,9 @@
 import { formatFile } from '../formatFile';
-import type { Internals } from '~/types';
+import type { Context } from '~/types';
 import { fse } from '../fse';
 
 interface Config {
-    context: Internals.Context;
+    context: Context;
 
     filePath: string;
     content: any;

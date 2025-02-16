@@ -1,2 +1,2 @@
 export * from './RootContainer';
-export * from './SourceFolderContainer';
+export * from './PackageContainer';

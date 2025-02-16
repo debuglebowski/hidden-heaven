@@ -4,7 +4,7 @@ export const args = minimist(process.argv);
 
 export const cwd = args['cwd'] || process.cwd();
 
-export const sourceFolderName__flag = args['source-folder-name'] || args['sourceFolderName'] || args['-s'] || '.config';
+export const linkFolderName__flag = args['link-folder-name'] || args['linkFolderName'] || args['-l'] || '.config';
 
 export const initMode = args['init'] || args['i'] || false;
 

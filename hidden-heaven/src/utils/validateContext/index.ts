@@ -1,8 +1,7 @@
-import type { Internals } from '~/types';
-import { fse } from '../fse';
+import type { Context } from '~/types';
 
-export async function validateContext(context: Internals.Context) {
-    const { initMode, sourceFolderName, gitignore, vscode, map, onItem } = context;
+export async function validateContext(context: Context) {
+    const { initMode, gitignore, vscode, onItem } = context;
 
     if (initMode) {
         if (initMode !== 'all' && typeof initMode !== 'boolean') {
@@ -22,23 +21,9 @@ export async function validateContext(context: Internals.Context) {
         }
     }
 
-    if (map) {
-        if (typeof map !== 'object') {
-            throw new Error('map must be an object');
-        }
-    }
-
     if (onItem) {
         if (typeof onItem !== 'function') {
-            throw new Error('onFile must be a function');
-        }
-    }
-
-    if (!initMode) {
-        const sourceFolderExists = await fse.exists(sourceFolderName);
-
-        if (!sourceFolderExists) {
-            throw new Error(`Source folder ${sourceFolderName} is required`);
+            throw new Error('onItem must be a function');
         }
     }
 

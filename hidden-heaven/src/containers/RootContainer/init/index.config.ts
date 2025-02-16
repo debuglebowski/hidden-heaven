@@ -24,10 +24,10 @@ export async function initFiles(this: RootContainer) {
 
     const paths = createPaths(context);
 
-    await fse.ensureDir(paths.sourceFolder);
+    await fse.ensureDir(paths.linkFolder);
 
     await writeConfig.call(this);
 
-    await ensureFile({ filePath: paths.gitignore, content: '' });
-    await ensureFile({ filePath: paths.vscode.settings, content: '{}' });
+    await ensureFile({ filePath: paths.gitignoreFile, content: '' });
+    await ensureFile({ filePath: paths.vscodeSettingsFile, content: '{}' });
 }

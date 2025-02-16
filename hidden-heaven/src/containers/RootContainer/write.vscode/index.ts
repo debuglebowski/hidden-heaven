@@ -5,9 +5,9 @@ import { resetSettings } from './index.reset';
 const excludeKey = 'files.exclude';
 
 export async function write__vscode(this: RootContainer) {
-    const { context, flatTargetItems } = this;
+    const { context, flatLinkItems: flatTargetItems } = this;
 
-    const settingsFilePath = createPaths(context).vscode.settings;
+    const settingsFilePath = createPaths(context).vscodeSettingsFile;
 
     await fse.ensureFile(settingsFilePath);
 

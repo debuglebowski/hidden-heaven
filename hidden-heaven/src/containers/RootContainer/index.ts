@@ -1,26 +1,28 @@
-import type { Internals } from '~/types';
-import { SourceFolderContainer } from '~/containers';
-import { findSourceFolders } from '~/utils/findSourceFolders';
+import type { Context } from '~/types';
+import { PackageContainer } from '~/containers';
+
 import { triggerCallbacks } from './triggerCallbacks';
 import { write__gitignore } from './write.gitignore';
 import { write__vscode } from './write.vscode';
 import { sync } from './sync';
 import { init } from './init';
 import { clean } from './clean';
-import { initContext, validateContext } from '~/utils';
+import { findPackageFolders, initContext, validateContext } from '~/utils';
 import { reset } from './reset';
 
 export class RootContainer {
-    static async fromContext(context: Internals.Context) {
+    static async fromContext(context: Context) {
         await validateContext(context);
 
-        const sourceFolders = await findSourceFolders(context);
+        const packageFolders = await findPackageFolders(context);
 
-        const sourceFolderContainers = sourceFolders.map((sourceFolder) => {
-            return new SourceFolderContainer(context, sourceFolder);
+        const packageContainerPromises = packageFolders.map((packageFolder) => {
+            return PackageContainer.fromFolder(context, packageFolder);
         });
 
-        return new RootContainer(context, sourceFolderContainers);
+        const packageContainers = await Promise.all(packageContainerPromises);
+
+        return new RootContainer(context, packageContainers);
     }
 
     static async init() {
@@ -30,13 +32,13 @@ export class RootContainer {
     }
 
     private constructor(
-        readonly context: Internals.Context,
-        readonly sourceFolderContainers: SourceFolderContainer[],
+        readonly context: Context,
+        readonly packageContainers: PackageContainer[],
     ) {}
 
-    get flatTargetItems() {
-        return this.sourceFolderContainers.flatMap((sourceFolderContainer) => {
-            return sourceFolderContainer.targetItems;
+    get flatLinkItems() {
+        return this.packageContainers.flatMap((sourceFolderContainer) => {
+            return sourceFolderContainer.linkItems;
         });
     }
 

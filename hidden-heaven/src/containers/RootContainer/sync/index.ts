@@ -2,7 +2,7 @@ import type { RootContainer } from '..';
 import { getWorkspaceMeta } from '~/utils';
 
 export async function sync(this: RootContainer) {
-    const { context, sourceFolderContainers } = this;
+    const { context, packageContainers: sourceFolderContainers } = this;
     const { initMode } = context;
 
     const { isVsCodeProject, hasGitignore } = await getWorkspaceMeta(context);

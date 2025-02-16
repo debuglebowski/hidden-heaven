@@ -43,6 +43,8 @@ You can already now do a bunch of customizations to the logic, but this is not d
 # TODO
 
 - Reverse the link direction
+- Write to user settings in order to overwrite the hidings.
+    - Add local ignored file to fix this? .hide.local.js?
 - Add different ways of determining included files
     - Regex object
     - JS-function (in config-file)
