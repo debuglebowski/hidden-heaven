@@ -1,0 +1,1 @@
+/Users/Kalle/dev/projects/hidden-heaven/src.test/fixtures/fixture.config/.config/hide.js
