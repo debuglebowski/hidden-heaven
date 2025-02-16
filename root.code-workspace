@@ -2,32 +2,28 @@
     "folders": [
         {
             "name": "hidden-heaven",
-            "path": "hidden-heaven"
-        },
-        {
-            "name": "scripts",
-            "path": "scripts"
+            "path": "src",
         },
         {
             "name": "fixture--basic",
-            "path": "hidden-heaven-fixtures/1-basic"
+            "path": "fixtures/1-basic",
         },
         {
             "name": "fixture--named",
-            "path": "hidden-heaven-fixtures/2-named"
+            "path": "fixtures/2-named",
         },
         {
             "name": "fixture--config",
-            "path": "hidden-heaven-fixtures/3-config"
+            "path": "fixtures/3-config",
         },
         {
             "name": "fixture--init",
-            "path": "hidden-heaven-fixtures/4-init"
+            "path": "fixtures/4-init",
         },
         {
             "name": "root",
-            "path": "."
-        }
+            "path": ".",
+        },
     ],
     "settings": {},
 }
