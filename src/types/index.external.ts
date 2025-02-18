@@ -85,12 +85,6 @@ export namespace HiddenHeaven {
         linkFolderName?: string;
 
         /**
-         * If we should write the target files to .gitignore
-         * Defaults to true
-         */
-        gitignore?: boolean;
-
-        /**
          * If we should hide the target files in vscode
          * Defaults to true
          */
@@ -159,10 +153,5 @@ export namespace HiddenHeaven {
          * This reverses the init command.
          */
         isReset?: boolean;
-
-        /**
-         * If you want to ONLY remove all target files.
-         */
-        isClean: boolean;
     }
 }

@@ -2,13 +2,13 @@ import type { Context } from '~/types';
 import { PackageContainer } from '~/containers';
 
 import { triggerCallbacks } from './triggerCallbacks';
-import { write__gitignore } from './write.gitignore';
-import { write__vscode } from './write.vscode';
+import { vscode__sync } from './vscode.sync';
 import { sync } from './sync';
 import { init } from './init';
-import { clean } from './clean';
-import { findPackageFolders, initContext, validateContext } from '~/utils';
+import { initContext, validateContext } from '~/utils';
 import { reset } from './reset';
+import { findPackageFolders } from './__findPackageFolders';
+import { vscode__reset } from './vscode.reset/index.reset';
 
 export class RootContainer {
     static async fromContext(context: Context) {
@@ -36,15 +36,21 @@ export class RootContainer {
         readonly packageContainers: PackageContainer[],
     ) {}
 
+    get flatSourceItems() {
+        return this.packageContainers.flatMap((sourceFolderContainer) => {
+            return sourceFolderContainer.sourceItems;
+        });
+    }
+
     get flatLinkItems() {
         return this.packageContainers.flatMap((sourceFolderContainer) => {
             return sourceFolderContainer.linkItems;
         });
     }
 
-    write = {
-        vscode: write__vscode.bind(this),
-        gitignore: write__gitignore.bind(this),
+    vscode = {
+        write: vscode__sync.bind(this),
+        reset: vscode__reset.bind(this),
     };
 
     triggerCallbacks = triggerCallbacks.bind(this);
@@ -54,6 +60,4 @@ export class RootContainer {
     init = init.bind(this);
 
     reset = reset.bind(this);
-
-    clean = clean.bind(this);
 }

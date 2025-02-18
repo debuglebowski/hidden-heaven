@@ -6,4 +6,6 @@ export async function reset(this: RootContainer) {
     });
 
     await Promise.all(resetPromises);
+
+    await this.vscode.reset();
 }

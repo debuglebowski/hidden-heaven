@@ -6,19 +6,19 @@
         },
         {
             "name": "fixture--basic",
-            "path": "test.fixtures/1-basic",
+            "path": "test/1-basic",
         },
         {
             "name": "fixture--named",
-            "path": "test/fixtures/2-named",
+            "path": "test/2-named",
         },
         {
             "name": "fixture--config",
-            "path": "test/fixtures/3-config",
+            "path": "test/3-config",
         },
         {
             "name": "fixture--init",
-            "path": "test.fixtures/4-init",
+            "path": "test/4-init",
         },
         {
             "name": "root",

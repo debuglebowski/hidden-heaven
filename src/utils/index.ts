@@ -15,13 +15,12 @@ export * from './delimiters';
 export * from './paths';
 
 export * from './createRelativePath';
-export * from './createItemObject';
+export * from './createItem';
 
 export * from './getWorkspaceMeta';
-
-export * from './findPackageFolders';
-export * from './findSourceItems';
 
 export * from './validateContext';
 
 export * from './initContext';
+
+export * from './glob';

@@ -1,17 +1,11 @@
 import type { Context } from '~/types';
 
 export async function validateContext(context: Context) {
-    const { initMode, gitignore, vscode, onItem } = context;
+    const { initMode, vscode, onItem } = context;
 
     if (initMode) {
         if (initMode !== 'all' && typeof initMode !== 'boolean') {
             throw new Error('initMode must be a boolean or "all"');
-        }
-    }
-
-    if (gitignore) {
-        if (typeof gitignore !== 'boolean') {
-            throw new Error('gitignore must be a boolean');
         }
     }
 

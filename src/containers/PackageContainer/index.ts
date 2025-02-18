@@ -1,6 +1,7 @@
 import { join } from 'node:path';
 import type { Context, HiddenHeaven } from '~/types';
-import { createItemObject, createRelativePath, execSync, findSourceItems, fse } from '~/utils';
+import { createItem, createRelativePath, execSync, fse } from '~/utils';
+import { findSourceItems } from './index.source';
 
 export class PackageContainer {
     static async fromFolder(context: Context, packageFolder: HiddenHeaven.PackageFolder) {
@@ -22,7 +23,7 @@ export class PackageContainer {
 
         const linkFolderPath = join(absolutePath, linkFolderName);
 
-        return createItemObject(context, linkFolderPath, { packageFolder });
+        return createItem(context, linkFolderPath, { packageFolder });
     }
 
     get linkItems() {
@@ -31,9 +32,9 @@ export class PackageContainer {
         });
     }
 
-    removeLinkItem(linkItem: HiddenHeaven.LinkItem) {
-        return fse.remove(linkItem.absolutePath);
-    }
+    // removeLinkItem(linkItem: HiddenHeaven.LinkItem) {
+    //     return fse.remove(linkItem.absolutePath);
+    // }
 
     createLinkItem(sourceItem: HiddenHeaven.SourceItem): HiddenHeaven.LinkItem {
         const { packageLinkFolder } = this;
@@ -46,34 +47,22 @@ export class PackageContainer {
     }
 
     async syncLinkItem(linkItem: HiddenHeaven.LinkItem) {
-        await this.removeLinkItem(linkItem);
+        // await this.removeLinkItem(linkItem);
 
-        execSync(['ln', '-sf', linkItem.sourceItem.absolutePath, linkItem.absolutePath]);
+        execSync(['ln', '-sf', linkItem.sourceItem.absolutePath, linkItem.relativePath]);
     }
 
-    async clean() {
-        const promises = this.linkItems.map((linkItem) => {
-            return this.removeLinkItem(linkItem);
-        });
-
-        await Promise.all(promises);
+    async reset() {
+        await fse.remove(this.packageLinkFolder.absolutePath);
     }
 
     async sync() {
+        await fse.ensureDir(this.packageLinkFolder.absolutePath);
+
         const promises = this.linkItems.map((linkItem) => {
             return this.syncLinkItem(linkItem);
         });
 
         await Promise.all(promises);
-    }
-
-    async reset() {
-        await this.clean();
-
-        for (const linkItem of this.linkItems) {
-            await fse.move(linkItem.absolutePath, linkItem.sourceItem.absolutePath);
-        }
-
-        await fse.remove(this.packageFolder.absolutePath);
     }
 }

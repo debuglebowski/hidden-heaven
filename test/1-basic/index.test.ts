@@ -1,3 +1,10 @@
-import { runFixture } from '../__factory';
+import { describe } from 'vitest';
+import { runFixture } from 'test/__factory';
 
-runFixture({ name: 'basic', args: [] });
+describe('basic', () => {
+    runFixture({
+        name: 'basic',
+        args: [],
+        linkedFileNames: ['mfoqw.json', '.gitignore', '.vscode', '.nxihfq'],
+    });
+});

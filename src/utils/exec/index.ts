@@ -1,5 +1,5 @@
-import { spawnSync } from 'node:child_process';
+import { spawnSync, type SpawnSyncOptions } from 'node:child_process';
 
-export function execSync(cmd: string[]) {
-    return spawnSync(cmd.join(' '), { stdio: 'pipe', shell: true });
+export function execSync(cmd: string[], options: SpawnSyncOptions = {}) {
+    return spawnSync(cmd.join(' '), { stdio: 'pipe', shell: true, ...options });
 }

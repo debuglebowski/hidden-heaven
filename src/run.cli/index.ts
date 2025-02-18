@@ -1,5 +1,4 @@
 import { RootContainer } from '~/containers';
-import { run } from '../run';
 import { initContext } from '../utils';
 
 export async function runCli() {
@@ -7,11 +6,8 @@ export async function runCli() {
         return RootContainer.fromContext(context);
     });
 
-    const { isClean, isReset, initMode } = rootContainer.context;
-
-    if (isClean) {
-        return rootContainer.clean();
-    }
+    const { context } = rootContainer;
+    const { isReset, initMode } = context;
 
     if (isReset) {
         return rootContainer.reset();
@@ -21,5 +17,5 @@ export async function runCli() {
         return rootContainer.init();
     }
 
-    return run(rootContainer);
+    return rootContainer.sync();
 }
