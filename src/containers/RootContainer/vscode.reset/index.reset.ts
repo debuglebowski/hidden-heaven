@@ -1,4 +1,4 @@
-import { createPaths, delimiter, fse, writeFile } from '~/utils';
+import { createPaths, delimiter, fse, parseJson, readJson, writeFile } from '~/utils';
 import type { RootContainer } from '..';
 
 type Settings = Record<string, any>;
@@ -27,19 +27,19 @@ export async function vscode__reset(this: RootContainer) {
 
     await fse.ensureFile(settingsFilePath);
 
-    const settings__raw = await fse.readJson(settingsFilePath);
+    const settings__raw = await readJson(settingsFilePath);
 
     const settings__string__filtered__lines = createFilteredLines(settings__raw);
     const settings__string__filtered = settings__string__filtered__lines.join('\n');
 
-    const settings = JSON.parse(settings__string__filtered);
+    const settings = parseJson(settings__string__filtered);
 
     await writeFile({
         context,
 
         filePath: settingsFilePath,
 
-        content: settings,
+        content: JSON.stringify(settings, null, 2),
 
         shouldFormat: true,
     });

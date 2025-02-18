@@ -1,5 +1,5 @@
 import type { Context, HiddenHeaven } from '~/types';
-import { glob, createItem } from '~/utils';
+import { glob, createItemObject } from '~/utils';
 
 const defaultItems = {
     include: ['.*', '*.*'],
@@ -31,6 +31,6 @@ export async function findSourceItems(
 
         const type = isDirectory ? 'folder' : 'file';
 
-        return createItem(context, path, { name, type, isDirectory, isFile });
+        return createItemObject(context, path, { name, type, isDirectory, isFile });
     });
 }

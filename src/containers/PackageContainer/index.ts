@@ -1,6 +1,6 @@
-import { join } from 'node:path';
+import { join, relative } from 'node:path';
 import type { Context, HiddenHeaven } from '~/types';
-import { createItem, createRelativePath, execSync, fse } from '~/utils';
+import { createItemObject, execSync, fse } from '~/utils';
 import { findSourceItems } from './index.source';
 
 export class PackageContainer {
@@ -23,7 +23,7 @@ export class PackageContainer {
 
         const linkFolderPath = join(absolutePath, linkFolderName);
 
-        return createItem(context, linkFolderPath, { packageFolder });
+        return createItemObject(context, linkFolderPath, { packageFolder });
     }
 
     get linkItems() {
@@ -32,24 +32,23 @@ export class PackageContainer {
         });
     }
 
-    // removeLinkItem(linkItem: HiddenHeaven.LinkItem) {
-    //     return fse.remove(linkItem.absolutePath);
-    // }
-
     createLinkItem(sourceItem: HiddenHeaven.SourceItem): HiddenHeaven.LinkItem {
-        const { packageLinkFolder } = this;
+        const { context, packageLinkFolder } = this;
         const { name } = sourceItem;
 
         const absolutePath = `${packageLinkFolder.absolutePath}/${name}`;
-        const relativePath = createRelativePath(this.context, absolutePath);
 
-        return { name, absolutePath, relativePath, sourceItem, parent: packageLinkFolder };
+        return createItemObject(context, absolutePath, { sourceItem, parent: packageLinkFolder });
     }
 
     async syncLinkItem(linkItem: HiddenHeaven.LinkItem) {
-        // await this.removeLinkItem(linkItem);
+        const linkFolderAbsolutePath = this.packageLinkFolder.absolutePath;
+        const linkItemAbsolutePath = linkItem.absolutePath;
 
-        execSync(['ln', '-sf', linkItem.sourceItem.absolutePath, linkItem.relativePath]);
+        const sourceItemAbsolutePath = linkItem.sourceItem.absolutePath;
+        const sourceItemRelativePath = relative(linkFolderAbsolutePath, sourceItemAbsolutePath);
+
+        execSync(['ln', '-sf', sourceItemRelativePath, linkItemAbsolutePath]);
     }
 
     async reset() {

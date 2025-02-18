@@ -15,7 +15,7 @@ export * from './delimiters';
 export * from './paths';
 
 export * from './createRelativePath';
-export * from './createItem';
+export * from './createItemObject';
 
 export * from './getWorkspaceMeta';
 
@@ -24,3 +24,5 @@ export * from './validateContext';
 export * from './initContext';
 
 export * from './glob';
+
+export * from './parseJson';

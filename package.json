@@ -57,6 +57,7 @@
     "dependencies": {
         "fast-glob": "*",
         "fs-extra": "*",
+        "json5": "^2.2.3",
         "minimist": "^1.2.8",
         "zod": "*"
     }

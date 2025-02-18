@@ -1,6 +1,6 @@
 import { dirname } from 'node:path';
 import type { Context, HiddenHeaven } from '~/types';
-import { createItem, fse } from '~/utils';
+import { createItemObject, fse } from '~/utils';
 import { glob } from '../../../utils/glob';
 
 export async function findPackageFolders(context: Context): Promise<HiddenHeaven.PackageFolder[]> {
@@ -21,6 +21,6 @@ export async function findPackageFolders(context: Context): Promise<HiddenHeaven
     });
 
     return paths__directories.map((path) => {
-        return createItem(context, path, {});
+        return createItemObject(context, path, {});
     });
 }
