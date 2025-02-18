@@ -1,7 +1,7 @@
 import { test, expect, describe } from 'vitest';
 import { fse } from '~/utils';
 import type { FixtureConfig } from './index.types';
-import { runHiddenHeaven } from './index.run';
+import { execHiddenHeaven } from './index.exec';
 import { runPackages } from './index.package';
 
 export async function runFixture(config: FixtureConfig) {
@@ -10,7 +10,7 @@ export async function runFixture(config: FixtureConfig) {
     describe('Hide', () => {
         runPackages(config, ({ linkedFileNames, readItems }) => {
             test('link folder exists', async () => {
-                runHiddenHeaven(args);
+                execHiddenHeaven(args);
 
                 const exists = await readItems();
 
@@ -55,7 +55,7 @@ export async function runFixture(config: FixtureConfig) {
     describe('Reset', () => {
         runPackages(config, ({ packageLinkFolderPath, readItems }) => {
             test('link folder does not exist', async () => {
-                runHiddenHeaven(['--reset']);
+                execHiddenHeaven(['--reset']);
 
                 const exists = await fse.exists(packageLinkFolderPath);
 
