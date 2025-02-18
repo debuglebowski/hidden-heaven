@@ -8,21 +8,31 @@ export async function runFixture(config: FixtureConfig) {
     const { args } = config;
 
     describe('Hide', () => {
-        runPackages(config, ({ linkedFileNames, readItems }) => {
+        runPackages(config, (pkg) => {
+            const {
+                packageLinkFolderPath,
+
+                linkedFileNames__included,
+                linkedFileNames__excluded,
+
+                readPackageItems,
+                readLinkedItems,
+            } = pkg;
+
             test('link folder exists', async () => {
                 execHiddenHeaven(args);
 
-                const exists = await readItems();
+                const exists = await fse.exists(packageLinkFolderPath);
 
                 expect(exists).toBe(true);
             });
 
             test('item coverage', async () => {
-                const items = await readItems();
+                const items = await readPackageItems();
 
                 const notCoveredItems = items.filter((linkedFileName) => {
-                    const isIncludedItem = linkedFileNames.included.includes(linkedFileName);
-                    const isExcludedItem = linkedFileNames.excluded.includes(linkedFileName);
+                    const isIncludedItem = linkedFileNames__included.includes(linkedFileName);
+                    const isExcludedItem = linkedFileNames__excluded.includes(linkedFileName);
 
                     return !isIncludedItem && !isExcludedItem;
                 });
@@ -31,20 +41,20 @@ export async function runFixture(config: FixtureConfig) {
             });
 
             test('symlinked items', async () => {
-                const items = await readItems();
+                const linkedItems = await readLinkedItems();
 
-                const missingItems = linkedFileNames.included.filter((linkedFileName) => {
-                    return !items.includes(linkedFileName);
+                const missingItems = linkedFileNames__included.filter((linkedFileName) => {
+                    return !linkedItems.includes(linkedFileName);
                 });
 
                 expect(missingItems).toEqual([]);
             });
 
             test('not symlinked items', async () => {
-                const items = await readItems();
+                const linkedItems = await readLinkedItems();
 
-                const itemsThatShouldNotExist = linkedFileNames.excluded.filter((linkedFileName) => {
-                    return items.includes(linkedFileName);
+                const itemsThatShouldNotExist = linkedFileNames__excluded.filter((linkedFileName) => {
+                    return linkedItems.includes(linkedFileName);
                 });
 
                 expect(itemsThatShouldNotExist).toEqual([]);
@@ -53,7 +63,7 @@ export async function runFixture(config: FixtureConfig) {
     });
 
     describe('Reset', () => {
-        runPackages(config, ({ packageLinkFolderPath, readItems }) => {
+        runPackages(config, ({ packageLinkFolderPath }) => {
             test('link folder does not exist', async () => {
                 execHiddenHeaven(['--reset']);
 

@@ -41,6 +41,10 @@ export class PackageContainer {
         return createItemObject(context, absolutePath, { sourceItem, parent: packageLinkFolder });
     }
 
+    async removeLinkFolder() {
+        await fse.remove(this.packageLinkFolder.absolutePath);
+    }
+
     async syncLinkItem(linkItem: HiddenHeaven.LinkItem) {
         const linkFolderAbsolutePath = this.packageLinkFolder.absolutePath;
         const linkItemAbsolutePath = linkItem.absolutePath;
@@ -52,10 +56,12 @@ export class PackageContainer {
     }
 
     async reset() {
-        await fse.remove(this.packageLinkFolder.absolutePath);
+        await this.removeLinkFolder();
     }
 
     async sync() {
+        await this.removeLinkFolder();
+
         await fse.ensureDir(this.packageLinkFolder.absolutePath);
 
         const promises = this.linkItems.map((linkItem) => {

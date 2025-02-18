@@ -8,8 +8,7 @@
                     "*.*"
                 ],
                 "exclude": [
-                    "package.json",
-                    "index.test.ts"
+                    "package.json"
                 ]
             }
         }

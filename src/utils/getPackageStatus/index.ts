@@ -1,8 +1,9 @@
 export function getPackageStatus(packageName: string) {
     try {
-        require.resolve(packageName);
-        return true;
+        const packagePath = require.resolve(packageName);
+
+        return { isPackageInstalled: true, packagePath };
     } catch (err) {
-        return false;
+        return { isPackageInstalled: false, packagePath: '' };
     }
 }

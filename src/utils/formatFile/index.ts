@@ -9,13 +9,13 @@ interface Config {
 
 export async function formatFile(config: Config) {
     const { filePath, context } = config;
-    const { runtime = 'npm', prettier = true, eslint = true } = context.format || {};
+    const { runtime = 'node', prettier = true, eslint = true } = context.format || {};
 
     if (prettier) {
-        tryExecBin({ runtime, bin: 'prettier', args: ['--write', filePath] });
+        await tryExecBin({ runtime, bin: 'prettier', args: ['--write', filePath] });
     }
 
     if (eslint) {
-        tryExecBin({ runtime, bin: 'eslint', args: ['--fix', filePath] });
+        await tryExecBin({ runtime, bin: 'eslint', args: ['--fix', filePath] });
     }
 }

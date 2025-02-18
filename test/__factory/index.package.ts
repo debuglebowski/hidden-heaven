@@ -1,14 +1,18 @@
 import { join } from 'node:path';
-import type { FixtureConfig, Package } from './index.types';
+import type { FixtureConfig } from './index.types';
 import { fse } from '~/utils';
 import { describe } from 'vitest';
 
-export interface PackageFnConfig extends Package {
+export interface PackageFnConfig {
     packagePath: string;
 
     packageLinkFolderPath: string;
 
-    readItems(): Promise<string[]>;
+    linkedFileNames__included: string[];
+    linkedFileNames__excluded: string[];
+
+    readPackageItems(): Promise<string[]>;
+    readLinkedItems(): Promise<string[]>;
 }
 
 export interface PackageFn {
@@ -24,14 +28,25 @@ export function runPackages(config: FixtureConfig, packageFn: PackageFn) {
         const packageLinkFolderPath = join(process.cwd(), packagePath, linkFolderName);
 
         describe(`Package "${packagePath}"`, () => {
-            packageFn({
-                ...pkg,
+            const { linkedFileNames } = pkg;
+            const { included, excluded } = linkedFileNames;
 
+            const linkedFileNames__included = [...included];
+            const linkedFileNames__excluded = [...excluded, linkFolderName, 'node_modules', 'src', 'test'];
+
+            packageFn({
                 packagePath,
 
                 packageLinkFolderPath,
 
-                readItems() {
+                linkedFileNames__included,
+                linkedFileNames__excluded,
+
+                readPackageItems() {
+                    return fse.readdir(packagePath);
+                },
+
+                readLinkedItems() {
                     return fse.readdir(packageLinkFolderPath);
                 },
             });

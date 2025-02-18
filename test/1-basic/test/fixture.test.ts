@@ -9,14 +9,14 @@ describe('basic', () => {
         packages: {
             '.': {
                 linkedFileNames: {
-                    included: ['.vscode', '.nxihfq', 'mfoqw.json', '.gitignore'],
-                    excluded: ['test', 'src'],
+                    included: ['.vscode', '.nxihfq', 'mfoqw.json', '.gitignore', '.prettierrc'],
+                    excluded: ['package.json'],
                 },
             },
             'src/nested/folder': {
                 linkedFileNames: {
-                    included: ['.ndomqw', 'package.json', 'jfoqwjo.json'],
-                    excluded: [],
+                    included: ['.ndomqw', 'jfoqwjo.json'],
+                    excluded: ['package.json'],
                 },
             },
         },
