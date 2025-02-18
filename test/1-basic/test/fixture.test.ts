@@ -13,6 +13,12 @@ describe('basic', () => {
                     excluded: ['test', 'src'],
                 },
             },
+            'src/nested/folder': {
+                linkedFileNames: {
+                    included: ['.ndomqw', 'package.json', 'jfoqwjo.json'],
+                    excluded: [],
+                },
+            },
         },
     });
 });
