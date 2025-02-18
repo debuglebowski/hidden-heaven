@@ -1,9 +1,3 @@
 {
-    "files.exclude": {
-        "---hidden-heaven-start---": true,
-        ".dqnidw.json": true,
-        ".mapped-to.json": true,
-        "hide.js": true,
-        "---hidden-heaven-stop---": true
-    }
+    "files.exclude": {}
 }
