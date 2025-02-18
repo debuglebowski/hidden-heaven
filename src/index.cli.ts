@@ -27,5 +27,6 @@ void runCli()
         console.log('Done!');
     })
     .catch((error: Error) => {
+        console.error('hidden-heaven failed');
         console.error(error.stack);
     });
