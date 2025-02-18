@@ -5,6 +5,14 @@ describe('basic', () => {
     runFixture({
         name: 'basic',
         args: [],
-        linkedFileNames: ['mfoqw.json', '.gitignore', '.vscode', '.nxihfq'],
+
+        packages: {
+            '.': {
+                linkedFileNames: {
+                    included: ['.vscode', '.nxihfq', 'mfoqw.json', '.gitignore'],
+                    excluded: ['test', 'src'],
+                },
+            },
+        },
     });
 });

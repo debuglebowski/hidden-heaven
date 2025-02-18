@@ -1,3 +1,7 @@
 import { runFixture } from 'test/__factory';
 
-runFixture({ name: 'init', args: ['--init'] });
+runFixture({
+    name: 'init',
+    args: ['--init'],
+    packages: {},
+});
