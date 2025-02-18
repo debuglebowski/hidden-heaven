@@ -1,7 +1,6 @@
 import { execSync } from '../exec';
-import { findNodeModules } from '../findNodeModules';
+import { findUp } from '../findUp';
 import { getPackageStatus } from '../getPackageStatus';
-import { join } from 'node:path';
 
 interface Config {
     runtime: string;
@@ -14,17 +13,13 @@ export async function tryExecBin(config: Config) {
 
     const { isPackageInstalled } = getPackageStatus(bin);
 
-    const nodeModulesPath = await findNodeModules(process.cwd());
-
-    const binPath = join(nodeModulesPath, '.bin', bin);
-
-    console.log({ binPath });
-
     if (!isPackageInstalled) {
         console.warn(`${bin} is not installed, skipping...`);
 
         return;
     }
 
-    execSync([runtime, binPath, ...args]);
+    const binPath = await findUp(`node_modules/.bin/${bin}`, process.cwd());
+
+    execSync([runtime, binPath, ...args], { stdio: 'inherit' });
 }

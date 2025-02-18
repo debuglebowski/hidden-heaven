@@ -1,14 +1,12 @@
 import { dirname, join } from 'path';
 import { fse } from '../fse';
 
-export async function findUp(name: string, cwd: string) {
-    const children = await fse.readdir(cwd, { withFileTypes: true });
+export async function findUp(childPath: string, cwd: string) {
+    const fullPath = join(cwd, childPath);
 
-    for (const child of children) {
-        if (child.name === name) {
-            return join(child.parentPath, child.name);
-        }
+    if (fse.existsSync(fullPath)) {
+        return fullPath;
     }
 
-    return findUp(name, dirname(cwd));
+    return findUp(childPath, dirname(cwd));
 }

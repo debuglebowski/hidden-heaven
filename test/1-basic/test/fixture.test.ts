@@ -9,7 +9,7 @@ describe('basic', () => {
         packages: {
             '.': {
                 linkedFileNames: {
-                    included: ['.vscode', '.nxihfq', 'mfoqw.json', '.gitignore', '.prettierrc'],
+                    included: ['.vscode', '.nxihfq', 'mfoqw.json', '.gitignore'],
                     excluded: ['package.json'],
                 },
             },
