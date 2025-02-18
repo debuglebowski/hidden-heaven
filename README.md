@@ -42,20 +42,24 @@ You can already now do a bunch of customizations to the logic, but this is not d
 
 # TODO
 
-- Reverse the link direction
 - Write to user settings in order to overwrite the hidings.
     - Add local ignored file to fix this? .hide.local.js?
 - Add different ways of determining included files
     - Regex object
     - JS-function (in config-file)
 - "init" command that move all files to .config and then syncs.
+- "reset"
+    - Reset vscode settings as well
 - Automatic tests
     - hide
-    - clean
+        - Test vscode settings
     - reset
     - init
 - Better docs
 - Add linting
+- Add "view" command?
+    - Temporarily shows hidden files?
+    - Purpose: How do we want to delete files?
 
 # Limitations
 
