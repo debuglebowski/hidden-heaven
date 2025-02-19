@@ -9,7 +9,7 @@ import { fse } from '../fse';
 type Dictionary = Record<string, any>;
 type Dictionary__Optional = Record<string, any> | undefined;
 
-const configFileNames = ['hiddenHeaven', 'hidden-heaven', 'hide', '.hide'];
+const configFileNames = ['hidden-heaven', 'hide', '.hide'];
 const configFileNames__json = configFileNames.map((name) => `${name}.json`);
 const configFileNames__js = configFileNames.map((name) => `${name}.js`);
 

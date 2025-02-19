@@ -1,16 +1,25 @@
 import { runFixture } from 'test/__factory';
+import { describe } from 'vitest';
 
-runFixture({
-    name: 'config',
+describe('Config', () => {
+    runFixture({
+        name: 'config',
 
-    runArgs: [],
+        runArgs: [],
 
-    packages: {
-        '.': {
-            linkedFileNames: {
-                included: ['.vscode', '.hide.js', '.dqnidw.json', '.gitignore'],
-                excluded: ['test', 'src'],
+        packages: {
+            '.': {
+                linkedFileNames: {
+                    included: ['.vscode', '.hide.js', '.dqnidw.json', '.gitignore'],
+                    excluded: ['package.json'],
+                },
+            },
+            'src/nested/folder': {
+                linkedFileNames: {
+                    included: ['.qwe.json'],
+                    excluded: ['package.json'],
+                },
             },
         },
-    },
+    });
 });
