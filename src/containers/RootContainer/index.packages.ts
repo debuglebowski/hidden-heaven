@@ -2,6 +2,8 @@ import { dirname } from 'node:path';
 import type { Context, HiddenHeaven } from '~/types';
 import { createItemObject, fse, glob } from '~/utils';
 
+const globalExclude = ['**/node_modules/**'];
+
 const defaultInclude: string[] = ['**/package.json'];
 const defaultExclude: string[] = [];
 
@@ -13,7 +15,7 @@ export async function findPackageFolders(context: Context): Promise<HiddenHeaven
         cwd,
         dot: true,
         absolute: true,
-        ignore: ['**/node_modules/**', ...exclude],
+        ignore: [...globalExclude, ...exclude],
     });
 
     const paths__directories = paths.map((path) => {
