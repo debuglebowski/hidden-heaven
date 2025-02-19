@@ -4,7 +4,8 @@ import { runFixture } from 'test/__factory';
 describe('basic', () => {
     runFixture({
         name: 'basic',
-        args: [],
+
+        runArgs: [],
 
         packages: {
             '.': {

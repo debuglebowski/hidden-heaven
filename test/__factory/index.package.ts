@@ -1,6 +1,6 @@
 import { join } from 'node:path';
 import type { FixtureConfig } from './index.types';
-import { fse } from '~/utils';
+import { fse, parseJson } from '~/utils';
 import { describe } from 'vitest';
 
 export interface PackageFnConfig {
@@ -13,6 +13,7 @@ export interface PackageFnConfig {
 
     readPackageItems(): Promise<string[]>;
     readLinkedItems(): Promise<string[]>;
+    readVscodeSettings(): Promise<any>;
 }
 
 export interface PackageFn {
@@ -26,6 +27,7 @@ export function runPackages(config: FixtureConfig, packageFn: PackageFn) {
         const pkg = packages[packagePath];
 
         const packageLinkFolderPath = join(process.cwd(), packagePath, linkFolderName);
+        const vscodeSettingsPath = join(process.cwd(), '.vscode', 'settings.json');
 
         describe(`Package "${packagePath}"`, () => {
             const { linkedFileNames } = pkg;
@@ -48,6 +50,10 @@ export function runPackages(config: FixtureConfig, packageFn: PackageFn) {
 
                 readLinkedItems() {
                     return fse.readdir(packageLinkFolderPath);
+                },
+
+                readVscodeSettings() {
+                    return fse.readFile(vscodeSettingsPath, 'utf8').then(parseJson);
                 },
             });
         });

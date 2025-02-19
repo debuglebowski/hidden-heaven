@@ -8,7 +8,7 @@ export interface Package {
 export interface FixtureConfig {
     name: string;
 
-    args: string[];
+    runArgs: string[];
 
     linkFolderName?: string;
 

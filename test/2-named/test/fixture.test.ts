@@ -1,15 +1,27 @@
 import { runFixture } from 'test/__factory';
+import { describe } from 'vitest';
 
-runFixture({
-    name: 'named',
-    args: ['--link-folder-name', '.files'],
+describe('Named', () => {
+    runFixture({
+        name: 'named',
 
-    packages: {
-        '.': {
-            linkedFileNames: {
-                included: ['jiqhwd'],
-                excluded: ['src', 'test'],
+        runArgs: [],
+
+        linkFolderName: '.files',
+
+        packages: {
+            '.': {
+                linkedFileNames: {
+                    included: ['.vscode', 'jiqhwd', 'modwq.json'],
+                    excluded: ['package.json'],
+                },
+            },
+            'src/nested/folder': {
+                linkedFileNames: {
+                    included: ['qniwnd.json'],
+                    excluded: ['package.json'],
+                },
             },
         },
-    },
+    });
 });
