@@ -1,7 +1,7 @@
 import { join, relative } from 'node:path';
 import type { Context, HiddenHeaven } from '~/types';
 import { createItemObject, execSync, fse } from '~/utils';
-import { findSourceItems } from './index.source';
+import { findSourceItems } from './index.items';
 
 export class PackageContainer {
     static async fromFolder(context: Context, packageFolder: HiddenHeaven.PackageFolder) {

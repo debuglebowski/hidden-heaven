@@ -1,11 +1,13 @@
 import { dirname } from 'node:path';
 import type { Context, HiddenHeaven } from '~/types';
-import { createItemObject, fse } from '~/utils';
-import { glob } from '../../../utils/glob';
+import { createItemObject, fse, glob } from '~/utils';
+
+const defaultInclude: string[] = ['**/package.json'];
+const defaultExclude: string[] = [];
 
 export async function findPackageFolders(context: Context): Promise<HiddenHeaven.PackageFolder[]> {
     const { cwd, find } = context;
-    const { include = ['**/package.json'], exclude = [] } = find?.packages || {};
+    const { include = defaultInclude, exclude = defaultExclude } = find?.packages || {};
 
     const paths = await glob(include, {
         cwd,

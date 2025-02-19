@@ -7,7 +7,7 @@ import { sync } from './sync';
 import { init } from './init';
 import { initContext, validateContext } from '~/utils';
 import { reset } from './reset';
-import { findPackageFolders } from './__findPackageFolders';
+import { findPackageFolders } from './index.packages';
 import { vscode__reset } from './vscode.reset/index.reset';
 import { show } from './show';
 
