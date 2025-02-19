@@ -16,6 +16,7 @@
         "package.json"
     ],
     "bin": {
+        "hide": "dist/index.cli.cjs",
         "hidden-heaven": "dist/index.cli.cjs"
     },
     "scripts": {

@@ -42,11 +42,8 @@ You can already now do a bunch of customizations to the logic, but this is not d
 
 # TODO
 
-- Add "show" command?
-    - Temporarily shows hidden files?
-    - Purpose: How do we want to delete files?
-- Automatic tests
-    - show
+- Rename to "hidden-hell"
+- Make sure published version works
 
 # Roadmap
 
