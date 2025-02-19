@@ -1,6 +1,6 @@
 {
     "name": "hidden-hell",
-    "version": "0.0.3",
+    "version": "0.0.2",
     "type": "module",
     "module": "dist/index.ts",
     "main": "dist/index.cjs",
@@ -40,7 +40,8 @@
         "sourcemap": true,
         "clean": true,
         "format": [
-            "esm"
+            "esm",
+            "cjs"
         ]
     },
     "devDependencies": {
