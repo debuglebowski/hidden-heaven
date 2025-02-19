@@ -1,7 +1,7 @@
 import { execSync } from '../exec';
 import { findUp } from '../findUp';
 import { getPackageStatus } from '../getPackageStatus';
-import { print } from '../log';
+import { printWarning } from '../log';
 
 interface Config {
     runtime: string;
@@ -15,7 +15,7 @@ export async function tryExecBin(config: Config) {
     const { isPackageInstalled } = getPackageStatus(bin);
 
     if (!isPackageInstalled) {
-        print(`${bin} is not installed, skipping...`);
+        printWarning(`${bin} is not installed, skipping...`);
 
         return;
     }
