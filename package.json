@@ -39,8 +39,7 @@
         "sourcemap": true,
         "clean": true,
         "format": [
-            "esm",
-            "cjs"
+            "esm"
         ]
     },
     "devDependencies": {
@@ -55,7 +54,6 @@
         "fast-glob": "*",
         "fs-extra": "*",
         "json5": "^2.2.3",
-        "minimist": "^1.2.8",
-        "zod": "*"
+        "minimist": "^1.2.8"
     }
 }
