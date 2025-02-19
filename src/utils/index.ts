@@ -4,7 +4,6 @@ export * from './exec';
 export * from './tryExecBin';
 
 export * from './findUp';
-export * from './findNodeModules';
 
 export * from './readJson';
 
