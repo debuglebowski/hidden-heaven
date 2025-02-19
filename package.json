@@ -28,7 +28,8 @@
         "test": "vitest",
         "test:types": "tsc --noEmit",
         "--DEPLOY--": "",
-        "deploy": "bash scripts/deploy.sh"
+        "deploy": "bash scripts/deploy.sh",
+        "deploy:patch": "bash scripts/deploy.patch.sh"
     },
     "tsup": {
         "entry": [
