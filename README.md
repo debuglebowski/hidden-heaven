@@ -42,8 +42,6 @@ You can already now do a bunch of customizations to the logic, but this is not d
 
 # TODO
 
-- Write to user settings in order to overwrite the hidings.
-    - Add local ignored file to fix this? .hide.local.js?
 - "init" command that move all files to .config and then syncs.
 - Automatic tests
     - init
@@ -59,6 +57,8 @@ You can already now do a bunch of customizations to the logic, but this is not d
 - Add different ways of determining included files
     - Regex object
     - JS-function (in config-file)
+- Write to user settings in order to overwrite the hidings.
+    - Add local ignored file to fix this? .hide.local.js?
 
 # Limitations
 

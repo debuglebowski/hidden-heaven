@@ -1,9 +1,18 @@
+import type { HiddenHeaven } from '~/types';
 import type { RootContainer } from '..';
 import { createPaths, ensureFile, fse, writeFile } from '~/utils';
 
-const config__default = {
-    gitignore: true,
-    vscode: true,
+const config__default: HiddenHeaven.InputConfig = {
+    find: {
+        packages: {
+            include: ['**/package.json'],
+            exclude: [],
+        },
+        items: {
+            include: ['.*', '**/*'],
+            exclude: ['package.json'],
+        },
+    },
 };
 
 async function writeConfig(this: RootContainer) {
@@ -28,6 +37,5 @@ export async function initFiles(this: RootContainer) {
 
     await writeConfig.call(this);
 
-    await ensureFile({ filePath: paths.gitignoreFile, content: '' });
     await ensureFile({ filePath: paths.vscodeSettingsFile, content: '{}' });
 }
