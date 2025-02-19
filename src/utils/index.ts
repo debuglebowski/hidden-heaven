@@ -28,3 +28,5 @@ export * from './initContext';
 export * from './glob';
 
 export * from './parseJson';
+
+export * from './log';

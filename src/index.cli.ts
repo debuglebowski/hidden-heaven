@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { RootContainer } from '~/containers';
-import { initContext } from '~/utils';
+import { initContext, print, printError } from '~/utils';
 
 async function runCli() {
     const rootContainer = await initContext().then((context) => {
@@ -24,9 +24,8 @@ async function runCli() {
 
 void runCli()
     .then(() => {
-        console.log('Done!');
+        print('Done!');
     })
     .catch((error: Error) => {
-        console.error('hidden-heaven failed');
-        console.error(error.stack);
+        printError('hidden-heaven failed', error);
     });

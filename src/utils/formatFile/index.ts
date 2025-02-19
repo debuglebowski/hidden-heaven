@@ -12,7 +12,7 @@ export async function formatFile(config: Config) {
     const { runtime = 'node', prettier = true, eslint = true } = context.format || {};
 
     if (prettier) {
-        await tryExecBin({ runtime, bin: 'prettier', args: ['--write', filePath] });
+        await tryExecBin({ runtime, bin: 'prettier', args: ['--write', '--log-level', 'error', filePath] });
     }
 
     if (eslint) {
