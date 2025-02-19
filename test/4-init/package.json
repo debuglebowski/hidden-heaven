@@ -1,3 +1,16 @@
 {
-    "name": "test.root"
+    "name": "test.root",
+    "hide": {
+        "find": {
+            "items": {
+                "include": [
+                    ".*",
+                    "*.*"
+                ],
+                "exclude": [
+                    "package.json"
+                ]
+            }
+        }
+    }
 }
