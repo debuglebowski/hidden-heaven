@@ -17,7 +17,7 @@
     ],
     "bin": {
         "hide": "dist/index.cli.cjs",
-        "hidden-heaven": "dist/index.cli.cjs"
+        "hidden-hell": "dist/index.cli.cjs"
     },
     "scripts": {
         "build": "tsup-node --dts",
