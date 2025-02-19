@@ -6,7 +6,7 @@ const defaultItems = {
     exclude: ['package.json'],
 };
 
-const defaultExclude = ['**/node_modules/**'];
+const defaultExclude = ['**/node_modules/**', '.git'];
 
 const globConfig = { dot: true, absolute: true, stats: true } as const;
 

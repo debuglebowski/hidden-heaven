@@ -41,6 +41,13 @@ Options:
 
 # Configuration
 
+The configuration file is a JavaScript file that exports an object with the following interface:
+
+The configuration can be defined in either the `package.json` or in the `.hide.js`/`hide.js`/`hidden-heaven.js` file. Both of them adheres to the interface above. However, the callbacks obviously cannot be used in the `package.json`.
+
+<details>
+<summary>Click to expand configuration interface</summary>
+
 ```ts
 interface InputConfig {
     /**
@@ -110,7 +117,9 @@ interface InputConfig {
 }
 ```
 
-The configuration can be defined in either the `package.json` or in the `.hide.js`/`hide.js`/`hidden-heaven.js` file. Both of them adheres to the interface above. However, the callbacks obviously cannot be used in the `package.json`.
+</details>
+
+<br>
 
 Check the [Source code](https://github.com/debuglebowski/hidden-hell/blob/main/src/types/index.external.ts) (`InputConfig`) for more information.
 
