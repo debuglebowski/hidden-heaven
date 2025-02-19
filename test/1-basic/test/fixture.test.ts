@@ -20,6 +20,12 @@ describe('basic', () => {
                     excluded: ['package.json'],
                 },
             },
+            'src/nested/project': {
+                linkedFileNames: {
+                    included: ['tsconfig.json', 'vite.config.ts', 'vitest.config.ts'],
+                    excluded: ['package.json'],
+                },
+            },
         },
     });
 });
