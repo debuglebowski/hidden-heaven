@@ -1,49 +1,128 @@
-# Hidden Heaven
+# Have you ever dreamed about this?
 
-## Have you ever dreamed about this?
+![Before](https://github.com/debuglebowski/hidden-hell/blob/main/docs/images/display.png?raw=true)
 
-![Before](docs/images/display.png)
+# What?
+
+All the files (you have chosen) are hidden away within the `.config` folder. This process is made in all packages within a monorepo.
+
+# Why?
+
+The JavaScript / TypeScript ecosystem is very large - for good and for bad. This means that we will always have a lot of configuration files. I often find myself getting distracted by the amount of configuration files. This along with the fact that I love structure, led me to create this tool.
 
 # How?
 
-We simply put all the config files (or any file, really) into a folder. Then we symlink them all to the root, and hide them from the interface.
+1. We find all the packages and items that are considered configuration (this is configurable but with good defaults).
+2. We symlink them all into the `.config` folder (which is also configurable).
+3. We hide all items by manipulating the `.vscode/settings.json` file.
+4. If you don't use vscode (or it's decendents), there is a custom hook in the configuration file so you can configure your own IDE.
 
-This also works in a nested folder structure. Everywhere you have the folder with the name `.config` (customizable), we will hide all the files in it.
+# Getting started
 
-This hiding part only works automatically for VSCode right now, but there is a custom hook for you to write your own hiding algorithm.
+```bash
+npx hidden-hell --init
+```
+
+This command will create a `.hide.js` file in the root of your project with some default configuration. This will lead to hiding all folders starting with a dot as well as all the root files. If you are using a monorepo, this will happen for all packages.
 
 # Usage
 
-1. Create a folder called .config in the root.
-2. Move all the files or folders you want to hide into this folder.
-3. Run the `npx hidden-heaven` command.
-4. Now all your files are symlinked to the root
-
-## Pure usage
+(If you have `hidden-hell` installed, you can also use the `hide` command as an alias.)
 
 ```bash
-npx hidden-heaven
+npx hidden-hell
+
+Options:
+  (-i | --init)                     # Initialize the configuration
+  (-l | --link-folder-name)  name   # The name of the folder that will contain the symlinks
+  (-r | --reset)                    # Reset the configuration
+  (-s | --show)                     # Show all files without removing the symlinks
 ```
 
-## Custom source folder name
+# Configuration
 
-```bash
-npx hidden-heaven --source-folder-name='.files'
+```ts
+interface InputConfig {
+    /**
+     * How to find all the packages we want to run within. Uses glob patterns.
+     */
+    find?: {
+        /**
+         * The folders of where to run hidden-heaven within.
+         * If the found item is a file, we'll use it's parent.
+         * Defaults to finding all "package.json" files except for node_modules
+         */
+        packages?: FindConfig;
+
+        /**
+         * The files within the packages that will be hidden.
+         * Defaults to ["*"]
+         */
+        items?: FindConfig;
+    };
+
+    /**
+     * The name of the link folder we want all symlinks to be written to.
+     * Defaults to .config
+     */
+    linkFolderName?: string;
+
+    /**
+     * If we should hide the target files in vscode
+     * Defaults to true
+     */
+    vscode?: boolean;
+
+    /**
+     * The format config
+     */
+    format?: {
+        /**
+         * What JS runtime command should we use to execute the formatters? npm? pnpm? yarn? bun?
+         * Defaults to npm
+         */
+        runtime?: string;
+
+        /**
+         * Whether to try to run prettier fix on the file
+         * Defaults to true
+         */
+        prettier?: boolean;
+
+        /**
+         * Whether to try to run eslint fix on the file
+         * Defaults to true
+         */
+        eslint?: boolean;
+    };
+
+    /**
+     * A callback for each source item that is found in the source folder.
+     * This can be used e.g. to write a custom .gitignore, .vscode, or other config files.
+     */
+    onItem?(config: OnItemConfig): any;
+
+    /**
+     * A callback for all the items found, The items are flattened.
+     * This can also be used to write a custom .gitignore, .vscode, or other config files.
+     */
+    onItems?(config: OnItemsConfig): any;
+}
 ```
 
-## "Side effects"
+The configuration can be defined in either the `package.json` or in the `.hide.js`/`hide.js`/`hidden-heaven.js` file. Both of them adheres to the interface above. However, the callbacks obviously cannot be used in the `package.json`.
 
-- If a .gitignore exists in the root, the symlinks will be added to this list in order to not commit multiple files.
-- If a .vscode/settings.json exists in the root, we will add all the symlinked files to the "files.exclude" list - which hides them from the tree interface.
-
-## Config
-
-You can already now do a bunch of customizations to the logic, but this is not documented yet.
+Check the [Source code](https://github.com/debuglebowski/hidden-hell/blob/main/src/types/index.external.ts) (`InputConfig`) for more information.
 
 # TODO
 
-- Rename to "hidden-hell"
 - Make sure published version works
+
+# Limitations
+
+- Windows is not yet supported, will add on demand.
+- Items are ignored and hidden on root level.
+    - If you want to hide them at a specific position or level, you need to write a custom hook.
 
 # Roadmap
 
@@ -54,9 +133,3 @@ You can already now do a bunch of customizations to the logic, but this is not d
     - JS-function (in config-file)
 - Write to user settings in order to overwrite the hidings.
     - Add local ignored file to fix this? .hide.local.js?
-
-# Limitations
-
-- Windows is not yet supported, will add on demand.
-- Items are ignored and hidden on root level.
-    - If you want to hide them at a specific position or level, you need to write a custom hook.
