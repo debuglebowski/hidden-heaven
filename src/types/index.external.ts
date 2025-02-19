@@ -153,5 +153,10 @@ export namespace HiddenHeaven {
          * This reverses the init command.
          */
         isReset?: boolean;
+
+        /**
+         * If you want to show all hidden files.
+         */
+        isShow?: boolean;
     }
 }

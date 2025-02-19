@@ -9,10 +9,14 @@ async function runCli() {
     });
 
     const { context } = rootContainer;
-    const { isReset, initMode } = context;
+    const { isReset, isShow, initMode } = context;
 
     if (isReset) {
         return rootContainer.reset();
+    }
+
+    if (isShow) {
+        return rootContainer.show();
     }
 
     if (initMode) {

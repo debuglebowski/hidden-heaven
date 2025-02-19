@@ -9,6 +9,7 @@ import { initContext, validateContext } from '~/utils';
 import { reset } from './reset';
 import { findPackageFolders } from './__findPackageFolders';
 import { vscode__reset } from './vscode.reset/index.reset';
+import { show } from './show';
 
 export class RootContainer {
     static async fromContext(context: Context) {
@@ -60,4 +61,6 @@ export class RootContainer {
     init = init.bind(this);
 
     reset = reset.bind(this);
+
+    show = show.bind(this);
 }

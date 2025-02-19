@@ -1,6 +1,6 @@
 import { join } from 'node:path';
 
-import { cwd, initMode, isReset, linkFolderName__flag } from './index.args';
+import { cwd, initMode, isReset, isShow, linkFolderName__flag } from './index.args';
 import type { HiddenHeaven, Context } from '~/types';
 import { findUp } from '../findUp';
 import { readJson } from '../readJson';
@@ -84,5 +84,6 @@ export async function initContext(): Promise<Context> {
         initMode,
 
         isReset,
+        isShow,
     };
 }

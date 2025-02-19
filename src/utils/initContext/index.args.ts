@@ -8,4 +8,6 @@ export const linkFolderName__flag = args['link-folder-name'] || args['linkFolder
 
 export const initMode = args['init'] || args['i'] || false;
 
-export const isReset = args['reset'] || false;
+export const isReset = args['reset'] || args['r'] || false;
+
+export const isShow = args['show'] || args['s'] || false;
