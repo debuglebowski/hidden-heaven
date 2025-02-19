@@ -1,10 +1,10 @@
 import type { Context, HiddenHeaven } from '~/types';
 import { glob, createItemObject } from '~/utils';
 
+const globalExclude = ['**/node_modules/**', '.git'];
+
 const defaultInclude: string[] = ['.*', '*.*'];
 const defaultExclude: string[] = ['package.json'];
-
-const globalExclude = ['**/node_modules/**', '.git'];
 
 const globConfig = { dot: true, absolute: true, stats: true } as const;
 
@@ -13,7 +13,9 @@ export async function findSourceItems(
     packageFolder: HiddenHeaven.PackageFolder,
 ): Promise<HiddenHeaven.SourceItem[]> {
     const { linkFolderName, find } = context;
-    const { include = defaultInclude, exclude = defaultExclude } = find?.items || {};
+
+    const include = find?.items?.include || defaultInclude;
+    const exclude = find?.items?.exclude || defaultExclude;
 
     const cwd = packageFolder.absolutePath;
     const ignore = [...globalExclude, ...exclude, linkFolderName];
