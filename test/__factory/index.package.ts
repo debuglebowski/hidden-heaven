@@ -1,7 +1,7 @@
 import { join } from 'node:path';
 import type { FixtureConfig } from './index.types';
 import { fse, parseJson } from '~/utils';
-import { describe } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 export interface PackageFnConfig {
     packagePath: string;
@@ -14,6 +14,8 @@ export interface PackageFnConfig {
     readPackageItems(): Promise<string[]>;
     readLinkedItems(): Promise<string[]>;
     readVscodeSettings(): Promise<any>;
+
+    testEmptyVscodeSettings(): void;
 }
 
 export interface PackageFn {
@@ -29,33 +31,45 @@ export function runPackages(config: FixtureConfig, packageFn: PackageFn) {
         const packageLinkFolderPath = join(process.cwd(), packagePath, linkFolderName);
         const vscodeSettingsPath = join(process.cwd(), '.vscode', 'settings.json');
 
-        describe(`Package "${packagePath}"`, () => {
-            const { linkedFileNames } = pkg;
-            const { included, excluded } = linkedFileNames;
+        const { linkedFileNames } = pkg;
+        const { included, excluded } = linkedFileNames;
 
-            const linkedFileNames__included = [...included];
-            const linkedFileNames__excluded = [...excluded, linkFolderName, 'node_modules', 'src', 'test'];
+        const linkedFileNames__included = [...included];
+        const linkedFileNames__excluded = [...excluded, linkFolderName, 'node_modules', 'src', 'test'];
 
-            packageFn({
-                packagePath,
+        function readPackageItems() {
+            return fse.readdir(packagePath);
+        }
 
-                packageLinkFolderPath,
+        function readLinkedItems() {
+            return fse.readdir(packageLinkFolderPath);
+        }
 
-                linkedFileNames__included,
-                linkedFileNames__excluded,
+        function readVscodeSettings() {
+            return fse.readFile(vscodeSettingsPath, 'utf8').then(parseJson);
+        }
 
-                readPackageItems() {
-                    return fse.readdir(packagePath);
-                },
+        packageFn({
+            packagePath,
 
-                readLinkedItems() {
-                    return fse.readdir(packageLinkFolderPath);
-                },
+            packageLinkFolderPath,
 
-                readVscodeSettings() {
-                    return fse.readFile(vscodeSettingsPath, 'utf8').then(parseJson);
-                },
-            });
+            linkedFileNames__included,
+            linkedFileNames__excluded,
+
+            readPackageItems,
+            readLinkedItems,
+            readVscodeSettings,
+
+            testEmptyVscodeSettings() {
+                test('empty vscode settings', async () => {
+                    const vscodeSettings = await readVscodeSettings();
+
+                    expect(vscodeSettings).toEqual({
+                        'files.exclude': {},
+                    });
+                });
+            },
         });
     }
 }

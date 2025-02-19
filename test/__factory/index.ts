@@ -1,8 +1,8 @@
 import { join } from 'node:path';
-import { test, expect, describe } from 'vitest';
+import { test, expect } from 'vitest';
 import { fse } from '~/utils';
 import type { FixtureConfig } from './index.types';
-import { execHiddenHeaven } from './index.exec';
+import { execHiddenHeavenTest } from './index.exec';
 import { runPackages } from './index.package';
 
 export async function runFixture(config: FixtureConfig) {
@@ -10,99 +10,100 @@ export async function runFixture(config: FixtureConfig) {
 
     const linkFolderNameArg = linkFolderName ? ['--link-folder-name', linkFolderName] : [];
 
-    describe('Hide', () => {
-        runPackages(config, (pkg) => {
-            const {
-                packagePath,
-                packageLinkFolderPath,
+    // Hide
+    execHiddenHeavenTest('Hide', [...runArgs, ...linkFolderNameArg]);
 
-                linkedFileNames__included,
-                linkedFileNames__excluded,
+    runPackages(config, (pkg) => {
+        const {
+            packagePath,
+            packageLinkFolderPath,
 
-                readPackageItems,
-                readLinkedItems,
-                readVscodeSettings,
-            } = pkg;
+            linkedFileNames__included,
+            linkedFileNames__excluded,
 
-            test('link folder exists', async () => {
-                execHiddenHeaven([...runArgs, ...linkFolderNameArg]);
+            readPackageItems,
+            readLinkedItems,
+            readVscodeSettings,
+        } = pkg;
 
-                const exists = await fse.exists(packageLinkFolderPath);
+        test('link folder exists', async () => {
+            const exists = await fse.exists(packageLinkFolderPath);
 
-                expect(exists).toBe(true);
+            expect(exists).toBe(true);
+        });
+
+        test('item coverage', async () => {
+            const items = await readPackageItems();
+
+            const notCoveredItems = items.filter((linkedFileName) => {
+                const isIncludedItem = linkedFileNames__included.includes(linkedFileName);
+                const isExcludedItem = linkedFileNames__excluded.includes(linkedFileName);
+
+                return !isIncludedItem && !isExcludedItem;
             });
 
-            test('item coverage', async () => {
-                const items = await readPackageItems();
+            expect(notCoveredItems).toEqual([]);
+        });
 
-                const notCoveredItems = items.filter((linkedFileName) => {
-                    const isIncludedItem = linkedFileNames__included.includes(linkedFileName);
-                    const isExcludedItem = linkedFileNames__excluded.includes(linkedFileName);
+        test('symlinked items', async () => {
+            const linkedItems = await readLinkedItems();
 
-                    return !isIncludedItem && !isExcludedItem;
-                });
-
-                expect(notCoveredItems).toEqual([]);
+            const missingItems = linkedFileNames__included.filter((linkedFileName) => {
+                return !linkedItems.includes(linkedFileName);
             });
 
-            test('symlinked items', async () => {
-                const linkedItems = await readLinkedItems();
+            expect(missingItems).toEqual([]);
+        });
 
-                const missingItems = linkedFileNames__included.filter((linkedFileName) => {
-                    return !linkedItems.includes(linkedFileName);
-                });
+        test('not symlinked items', async () => {
+            const linkedItems = await readLinkedItems();
 
-                expect(missingItems).toEqual([]);
+            const itemsThatShouldNotExist = linkedFileNames__excluded.filter((linkedFileName) => {
+                return linkedItems.includes(linkedFileName);
             });
 
-            test('not symlinked items', async () => {
-                const linkedItems = await readLinkedItems();
+            expect(itemsThatShouldNotExist).toEqual([]);
+        });
 
-                const itemsThatShouldNotExist = linkedFileNames__excluded.filter((linkedFileName) => {
-                    return linkedItems.includes(linkedFileName);
-                });
+        test('vscode settings', async () => {
+            const linkedItemNames = await readLinkedItems();
+            const vscodeSettings = await readVscodeSettings();
 
-                expect(itemsThatShouldNotExist).toEqual([]);
+            const excludedPaths = Object.keys(vscodeSettings['files.exclude']);
+
+            const linkedItemsPaths = linkedItemNames.map((linkedItemName) => {
+                return join(packagePath, linkedItemName);
             });
 
-            test('vscode settings', async () => {
-                const linkedItemNames = await readLinkedItems();
-                const vscodeSettings = await readVscodeSettings();
-
-                const excludedPaths = Object.keys(vscodeSettings['files.exclude']);
-
-                const linkedItemsPaths = linkedItemNames.map((linkedItemName) => {
-                    return join(packagePath, linkedItemName);
-                });
-
-                const missingLinkedItems = linkedItemsPaths.filter((linkedItemPath) => {
-                    return !excludedPaths.includes(linkedItemPath);
-                });
-
-                expect(missingLinkedItems).toEqual([]);
+            const missingLinkedItems = linkedItemsPaths.filter((linkedItemPath) => {
+                return !excludedPaths.includes(linkedItemPath);
             });
+
+            expect(missingLinkedItems).toEqual([]);
         });
     });
 
-    describe('Reset', () => {
-        runPackages(config, (pkg) => {
-            const { packageLinkFolderPath, readVscodeSettings } = pkg;
+    // Show
+    execHiddenHeavenTest('Show', [...linkFolderNameArg, '--show']);
 
-            test('link folder does not exist', async () => {
-                execHiddenHeaven([...linkFolderNameArg, '--reset']);
+    runPackages(config, (pkg) => {
+        const { testEmptyVscodeSettings } = pkg;
 
-                const exists = await fse.exists(packageLinkFolderPath);
+        testEmptyVscodeSettings();
+    });
 
-                expect(exists).toBe(false);
-            });
+    // Reset
+    execHiddenHeavenTest('Reset', [...linkFolderNameArg, '--reset']);
 
-            test('empty vscode settings', async () => {
-                const vscodeSettings = await readVscodeSettings();
+    runPackages(config, (pkg) => {
+        const { packageLinkFolderPath, testEmptyVscodeSettings } = pkg;
 
-                expect(vscodeSettings).toEqual({
-                    'files.exclude': {},
-                });
-            });
+        test('link folder does not exist', async () => {
+            const exists = await fse.exists(packageLinkFolderPath);
+
+            expect(exists).toBe(false);
         });
+
+        testEmptyVscodeSettings();
     });
 }

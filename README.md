@@ -42,13 +42,11 @@ You can already now do a bunch of customizations to the logic, but this is not d
 
 # TODO
 
-- "init" command that move all files to .config and then syncs.
-- Automatic tests
-    - init
-    - show
 - Add "show" command?
     - Temporarily shows hidden files?
     - Purpose: How do we want to delete files?
+- Automatic tests
+    - show
 
 # Roadmap
 
