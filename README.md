@@ -123,15 +123,19 @@ interface InputConfig {
 
 Check the [Source code](https://github.com/debuglebowski/hidden-hell/blob/main/src/types/index.external.ts) (`InputConfig`) for more information.
 
-# TODO
-
-- Make sure published version works
-
 # Limitations
 
 - Windows is not yet supported, will add on demand.
 - Items are ignored and hidden on root level.
     - If you want to hide them at a specific position or level, you need to write a custom hook.
+
+# TODO
+
+- Make init just init the config file
+- Battle test sync
+- Add workflow instructions
+    - If a file in the config file is not a symlink, we should move it to the root and then run the sync.
+        - This allows for a better workflow.
 
 # Roadmap
 
